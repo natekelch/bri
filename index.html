@@ -212,6 +212,7 @@
             z-index: 1000;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         }
+
     </style>
     <script>
         
@@ -228,27 +229,27 @@ function updateFormData() {
 }
 
 function submitForm() {
-            updateFormData(); // Ensure form data is updated
+    updateFormData(); // Ensure form data is updated
 
-            if (!validateAllPages()) {
-                alert('Please fill out all required fields before submitting.');
-                return;
-            }
+    if (!validateAllPages()) {
+        alert('Please fill out all required fields before submitting.');
+        return;
+    }
 
-            fetch('https://script.google.com/macros/s/AKfycbyTe_4sUWWAm2jkvQX9o4w_4SPIKjsOxhr8dRpxboYQ_lw21l29JkR6PAcK8JKjbQZLhA/exec', {
-                method: 'POST',
-                body: new URLSearchParams(formData)
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                displayFormData(); // Display form data on the thank you page
-                switchPage('thankyou'); // Show the Thank You page
-            })
-            .catch(error => console.error('Error:', error));
-        }
-        
-        function displayFormData() {
+    fetch('https://script.google.com/macros/s/AKfycbyTe_4sUWWAm2jkvQX9o4w_4SPIKjsOxhr8dRpxboYQ_lw21l29JkR6PAcK8JKjbQZLhA/exec', {
+        method: 'POST',
+        body: new URLSearchParams(formData)
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        displayFormData(); // Display form data on the thank you page
+        switchPage('thankyou'); // Show the Thank You page
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function displayFormData() {
     const formDataContainer = document.getElementById('form-data-container');
     formDataContainer.innerHTML = ''; // Clear previous data
 
@@ -358,60 +359,34 @@ function validatePage() {
 }
 
 function validateAllPages() {
-        let allValid = true;
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(page => {
-            const requiredFields = page.querySelectorAll('select[required], input[required]');
-            requiredFields.forEach(field => {
-                if (field.value === "") {
-                    field.style.border = '2px solid red';
-                    allValid = false;
-                } else {
-                    field.style.border = ''; // Reset border
-                }
-            });
-        });
-        return allValid;
-    }
-
-        function showWarningDialog(pageId) {
-            var warningDialog = document.getElementById("warning-dialog");
-            warningDialog.style.display = "block";
-            var proceedButton = document.getElementById("proceed-button");
-            proceedButton.onclick = function () {
-                switchPage(pageId);
-                warningDialog.style.display = "none";
-            };
-            var cancelButton = document.getElementById("cancel-button");
-            cancelButton.onclick = function () {
-                warningDialog.style.display = "none";
-            };
-        }
-
-        function switchPage(pageId) {
-            var pages = document.getElementsByClassName('page');
-            for (var i = 0; i < pages.length; i++) {
-                pages[i].classList.add('hidden');
+    let allValid = true;
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        const requiredFields = page.querySelectorAll('select[required], input[required]');
+        requiredFields.forEach(field => {
+            if (field.value === "") {
+                field.style.border = '2px solid red';
+                allValid = false;
+            } else {
+                field.style.border = ''; // Reset border
             }
-            document.getElementById(pageId).classList.remove('hidden');
-        }
-        
-        function validatePage() {
-    var currentPage = document.querySelector('.page:not(.hidden)');
-    if (!currentPage) {
-        return true; // No page to validate
-    }
-    var requiredFields = currentPage.querySelectorAll('select[required]');
-    var isValid = true;
-    for (var i = 0; i < requiredFields.length; i++) {
-        if (requiredFields[i].value === "") {
-            requiredFields[i].style.border = '2px solid #f8be08';
-            isValid = false;
-        } else {
-            requiredFields[i].style.border = ''; // Reset border
-        }
-    }
-    return isValid;
+        });
+    });
+    return allValid;
+}
+
+function showWarningDialog(pageId) {
+    var warningDialog = document.getElementById("warning-dialog");
+    warningDialog.style.display = "block";
+    var proceedButton = document.getElementById("proceed-button");
+    proceedButton.onclick = function () {
+        switchPage(pageId);
+        warningDialog.style.display = "none";
+    };
+    var cancelButton = document.getElementById("cancel-button");
+    cancelButton.onclick = function () {
+        warningDialog.style.display = "none";
+    };
 }
 
         function tl_updateSecondRound() {
@@ -1727,6 +1702,11 @@ function validateAllPages() {
         <!-- Form data will be displayed here -->
     </div>
     <button class="button-selections" onclick="printFormData()">Print</button>
+</div>
+<div id="warning-dialog" style="display: none;">
+    <p style="font-family: Arial, sans-serif">Please make sure to fill out all required fields before proceeding.</p>
+    <button class="button-selections" id="proceed-button">Proceed Anyway</button>
+    <button class="button-selections" id="cancel-button">Go Back</button>
 </div>
 
 <!--Footer-->
