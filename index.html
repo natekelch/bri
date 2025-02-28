@@ -436,7 +436,7 @@ function validatePage() {
     let isValid = true;
     requiredFields.forEach(field => {
         if (field.value === "") {
-            field.style.border = '2px solid red';
+            field.style.border = '2px solid #f8be08';
             isValid = false;
         } else {
             field.style.border = ''; // Reset border
@@ -452,7 +452,7 @@ function validateAllPages() {
         const requiredFields = page.querySelectorAll('select[required], input[required]');
         requiredFields.forEach(field => {
             if (field.value === "") {
-                field.style.border = '2px solid red';
+                field.style.border = '2px solid #f8be08';
                 allValid = false;
             } else {
                 field.style.border = ''; // Reset border
@@ -1760,9 +1760,11 @@ function showWarningDialog(pageId) {
             <div class="container">
                 <section class="blue-header" style="text-align: center">National Championship</section>
                 <section class="blue-header" style="text-align: center">National Champion</section>
+                <section class="blue-header" style="text-align: center; color: #0e0e5f">Tiebreaker</section>
             </div>
             <div class="container">
                 <section class="gray-header" style="text-align: center">April DD</section>
+                <section class="gray-header" style="text-align: center"></section>
                 <section class="gray-header" style="text-align: center"></section>
             </div>
         <div class="container">
