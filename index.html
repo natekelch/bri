@@ -42,9 +42,19 @@
         }
     }
     
+    #thankyou {
+    font-family: Arial, sans-serif;
+}
+    
+    #thankyou ul {
+    list-style-type: none; /* Remove bullets */
+    padding-left: 0; /* Remove default padding */
+}
+    
         .button-participant {
             font-family: Arial, sans-serif;
             font-weight: bold;
+            color: #0e0e5f;
             width: 150px;
             padding: 5px 20px;
             border: none;
@@ -63,6 +73,7 @@
         .button-selections {
             font-family: Arial, sans-serif;
             font-weight: bold;
+            color: #0e0e5f;
             width: 150px;
             padding: 5px 20px;
             border: none;
@@ -185,11 +196,19 @@
             display: none;
         }
 
-        h4 {
-           color: #0e0e5f;
-            margin-bottom: 0;
+        h4, h5 {
+            color: #0e0e5f;
+            margin-top: 5px;
+            margin-bottom: 0px;
             padding: 0;
         }
+
+        ul {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            font-size: smaller;
+            padding: 0;
+}
 
         .footer {
             padding: 5px 0;
@@ -236,7 +255,7 @@ function submitForm() {
         return;
     }
 
-    fetch('https://script.google.com/macros/s/AKfycbyTe_4sUWWAm2jkvQX9o4w_4SPIKjsOxhr8dRpxboYQ_lw21l29JkR6PAcK8JKjbQZLhA/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbxbkgxAI4oT5jgPxwWAbOznPDKLMjpJmVuAqTQHMFHHKPyC6KS5j0gbjVvYro4GEF3h2A/exec', {
         method: 'POST',
         body: new URLSearchParams(formData)
     })
@@ -261,24 +280,69 @@ function displayFormData() {
     };
 
     const rounds = {
-        'First Round': [],
-        'Second Round': [],
-        'Sweet Sixteen': [],
-        'Elite Eight': [],
+        'First Round': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
+        'Second Round': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
+        'Sweet Sixteen': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
+        'Elite Eight': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
         'Final Four': [],
-        'National Champion': []
+        'National Champion': [],
+        'Tiebreaker': formData['tiebreaker_points'] // Add tiebreaker points
     };
 
-    // Group form data by round
+    // Group form data by round and region
     for (const [key, value] of Object.entries(formData)) {
-        if (key.startsWith('tl_round1') || key.startsWith('bl_round1') || key.startsWith('tr_round1') || key.startsWith('br_round1')) {
-            rounds['First Round'].push(value);
-        } else if (key.startsWith('tl_round2') || key.startsWith('bl_round2') || key.startsWith('tr_round2') || key.startsWith('br_round2')) {
-            rounds['Second Round'].push(value);
-        } else if (key.startsWith('tl_sweet16') || key.startsWith('bl_sweet16') || key.startsWith('tr_sweet16') || key.startsWith('br_sweet16')) {
-            rounds['Sweet Sixteen'].push(value);
-        } else if (key.startsWith('tl_elite8') || key.startsWith('bl_elite8') || key.startsWith('tr_elite8') || key.startsWith('br_elite8')) {
-            rounds['Elite Eight'].push(value);
+        if (key.startsWith('tl_round1')) {
+            rounds['First Round']['Top Left'].push(value);
+        } else if (key.startsWith('bl_round1')) {
+            rounds['First Round']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_round1')) {
+            rounds['First Round']['Top Right'].push(value);
+        } else if (key.startsWith('br_round1')) {
+            rounds['First Round']['Bottom Right'].push(value);
+        } else if (key.startsWith('tl_round2')) {
+            rounds['Second Round']['Top Left'].push(value);
+        } else if (key.startsWith('bl_round2')) {
+            rounds['Second Round']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_round2')) {
+            rounds['Second Round']['Top Right'].push(value);
+        } else if (key.startsWith('br_round2')) {
+            rounds['Second Round']['Bottom Right'].push(value);
+        } else if (key.startsWith('tl_sweet16')) {
+            rounds['Sweet Sixteen']['Top Left'].push(value);
+        } else if (key.startsWith('bl_sweet16')) {
+            rounds['Sweet Sixteen']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_sweet16')) {
+            rounds['Sweet Sixteen']['Top Right'].push(value);
+        } else if (key.startsWith('br_sweet16')) {
+            rounds['Sweet Sixteen']['Bottom Right'].push(value);
+        } else if (key.startsWith('tl_elite8')) {
+            rounds['Elite Eight']['Top Left'].push(value);
+        } else if (key.startsWith('bl_elite8')) {
+            rounds['Elite Eight']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_elite8')) {
+            rounds['Elite Eight']['Top Right'].push(value);
+        } else if (key.startsWith('br_elite8')) {
+            rounds['Elite Eight']['Bottom Right'].push(value);
         } else if (key.startsWith('final4')) {
             rounds['Final Four'].push(value);
         } else if (key === 'national_champion') {
@@ -300,21 +364,44 @@ function displayFormData() {
     }
     formDataContainer.appendChild(participantList);
 
-    // Create and append headers and lists for each round
-    for (const [round, picks] of Object.entries(rounds)) {
-        if (picks.length > 0) {
-            const header = document.createElement('h4');
-            header.textContent = round;
-            header.style.fontWeight = 'bold';
-            formDataContainer.appendChild(header);
+    // Create and append headers and lists for each round and region
+    for (const [round, regions] of Object.entries(rounds)) {
+        const roundHeader = document.createElement('h4');
+        roundHeader.textContent = round;
+        roundHeader.style.fontWeight = 'bold';
+        formDataContainer.appendChild(roundHeader);
 
+        if (round === 'Final Four' || round === 'National Champion' || round === 'Tiebreaker') {
             const list = document.createElement('ul');
-            picks.forEach(pick => {
+            if (round === 'Tiebreaker') {
                 const listItem = document.createElement('li');
-                listItem.textContent = pick;
+                listItem.textContent = regions;
                 list.appendChild(listItem);
-            });
+            } else {
+                regions.forEach(pick => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = pick;
+                    list.appendChild(listItem);
+                });
+            }
             formDataContainer.appendChild(list);
+        } else {
+            for (const [region, picks] of Object.entries(regions)) {
+                if (picks.length > 0) {
+                    const regionHeader = document.createElement('h5');
+                    regionHeader.textContent = region;
+                    regionHeader.style.fontWeight = 'bold';
+                    formDataContainer.appendChild(regionHeader);
+
+                    const list = document.createElement('ul');
+                    picks.forEach(pick => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = pick;
+                        list.appendChild(listItem);
+                    });
+                    formDataContainer.appendChild(list);
+                }
+            }
         }
     }
 }
@@ -373,6 +460,20 @@ function validateAllPages() {
         });
     });
     return allValid;
+}
+
+function submitAnotherBracket() {
+    // Clear form data
+    formData = {};
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        if (input.type !== 'submit') {
+            input.value = '';
+        }
+    });
+
+    // Navigate back to the participant details page
+    switchPage('participant-details');
 }
 
 function showWarningDialog(pageId) {
@@ -850,16 +951,16 @@ function showWarningDialog(pageId) {
         
         <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's start with a few things about you.</h3>
         <form onsubmit="event.preventDefault(); showPage('tl_tournament-picks');">
-            <label for="first_name" class="participant-input">First Name:</label>
+            <label for="first_name" class="participant-input" style="color: #0e0e5f">First Name:</label>
             <input type="text" id="first_name" name="first_name" style="margin-left: 45px" required><br><br>
 
-            <label for="last_name" class="participant-input">Last Name:</label>
+            <label for="last_name" class="participant-input" style="color: #0e0e5f">Last Name:</label>
             <input type="text" id="last_name" name="last_name" style="margin-left: 45px" required><br><br>
 
-            <label for="email" class="participant-input">Email Address:</label>
+            <label for="email" class="participant-input" style="color: #0e0e5f">Email Address:</label>
             <input type="email" id="email" name="email" style="margin-left: 24px" required><br><br>
 
-            <label for="stateSelector" class="participant-input">Select Your State:</label>
+            <label for="stateSelector" class="participant-input" style="color: #0e0e5f">Select Your State:</label>
             <select id="stateSelector" name="stateSelector" style="margin-left: 10px" required>
                 <option value="">Select a state</option>
                 <option value="AL">Alabama</option>
@@ -1689,6 +1790,14 @@ function showWarningDialog(pageId) {
                     </select>
                 </div>
             </section>
+            <!-- Tiebreaker: Enter a number -->
+            <section id="tiebreaker" class="final4">
+                <p style="height: 147px; margin: 0; padding: 0;"></p>
+                <div class="centered-matchup blank">
+                    <label for="tiebreaker_points" style="font-family: Arial, sans-serif; color: #0e0e5f;">Tiebreaker: Total Pts Scored</label>
+                    <input type="number" id="tiebreaker_points" name="tiebreaker_points" required>
+                </div>
+            </section>
         </div><br><br>
         <input class="button-selections" type="submit" value="Submit"><br>
         <p style="font-family: Arial, sans-serif; font-weight: bolder; font-size:small; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Plase wait a moment after submitting your bracket. Do not press the submit button multiple times as it may cause unexpected behavior.
@@ -1698,10 +1807,14 @@ function showWarningDialog(pageId) {
 <div id="thankyou" class="page hidden">
     <h2 class="blue-header" style="text-align: left; margin-top: 5px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge</h2>
     <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Thank you for your submission!</h3>
+    <p style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 10px 0;">
+        If you haven't already, don't forget to pay your entry fee. Check out the <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> for more details.
+    </p>
+    <button class="button-selections" onclick="printFormData()">Print</button>
+    <button class="button-selections" onclick="submitAnotherBracket()">Run it Back</button>
     <div id="form-data-container">
         <!-- Form data will be displayed here -->
     </div>
-    <button class="button-selections" onclick="printFormData()">Print</button>
 </div>
 <div id="warning-dialog" style="display: none;">
     <p style="font-family: Arial, sans-serif">Please make sure to fill out all required fields before proceeding.</p>
