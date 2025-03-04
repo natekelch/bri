@@ -42,6 +42,8 @@
         }
     }
     
+
+    
     #thankyou {
     font-family: Arial, sans-serif;
 }
@@ -50,7 +52,92 @@
     list-style-type: none; /* Remove bullets */
     padding-left: 0; /* Remove default padding */
 }
-    
+
+.thankyou-round-header {
+    height: 45px; 
+    line-height: normal; /* Reset line height */
+    border-bottom: 2px solid #1c4587; /* Add a bottom border */
+    text-align: center; /* Center the text horizontally */
+    font-weight: bold; /* Make the text bold */
+    background-color: #0e0e5f; /* Background color */
+    color: #FFFFFF; /* Font color */
+    font-family: Arial, sans-serif; /* Font family */
+    margin: 0px;
+    padding: 10px; /* Add padding for better appearance */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words if necessary */
+    max-width: 200px; /* Set a maximum width for the headers */
+}
+
+#form-data-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#form-data-container > div {
+    flex: 1;
+    margin: 10px;
+}
+
+#rounds-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#rounds-container > div {
+    flex: 1;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #0e0e5f;
+    color: #fff;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: small;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the text */
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    font-family: Arial, sans-serif;
+    font-size: small;
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #0e0e5f transparent transparent transparent;
+}
+
+/* Show the tooltip text when hovering over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
         .button-participant {
             font-family: Arial, sans-serif;
             font-weight: bold;
@@ -255,7 +342,11 @@ function submitForm() {
         return;
     }
 
-    fetch('https://script.google.com/macros/s/AKfycbxbkgxAI4oT5jgPxwWAbOznPDKLMjpJmVuAqTQHMFHHKPyC6KS5j0gbjVvYro4GEF3h2A/exec', {
+    // Disable the submit button
+    const submitButton = document.getElementById('submit-button');
+    submitButton.disabled = true;
+
+    fetch('https://script.google.com/macros/s/AKfycbxJqKrhYM2fRacGv6v6O05tCbqK5bW8dKYNTXlJap8q9gZ5Kr5V3XMH-JDa6pUKQUBzsQ/exec', {
         method: 'POST',
         body: new URLSearchParams(formData)
     })
@@ -265,7 +356,13 @@ function submitForm() {
         displayFormData(); // Display form data on the thank you page
         switchPage('thankyou'); // Show the Thank You page
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => console.error('Error:', error))
+    .finally(() => {
+        // Re-enable the submit button after 12 seconds
+        setTimeout(() => {
+            submitButton.disabled = false;
+        }, 12000);
+    });
 }
 
 function displayFormData() {
@@ -276,6 +373,7 @@ function displayFormData() {
         'First Name': formData['first_name'],
         'Last Name': formData['last_name'],
         'Email Address': formData['email'],
+        'Bracket Entry Name': formData['bracket_name'], // Corrected key
         'State': formData['stateSelector']
     };
 
@@ -365,11 +463,21 @@ function displayFormData() {
     formDataContainer.appendChild(participantList);
 
     // Create and append headers and lists for each round and region
+    const roundsContainer = document.createElement('div');
+    roundsContainer.id = 'rounds-container'; // Ensure the ID is set correctly
+    roundsContainer.style.display = 'flex';
+    roundsContainer.style.flexWrap = 'wrap';
+
     for (const [round, regions] of Object.entries(rounds)) {
+        const roundColumn = document.createElement('div');
+        roundColumn.style.flex = '1';
+        roundColumn.style.margin = '5px'; // Ensure the margin is set correctly
+        roundColumn.style.padding = '0'; // Remove padding
+
         const roundHeader = document.createElement('h4');
         roundHeader.textContent = round;
-        roundHeader.style.fontWeight = 'bold';
-        formDataContainer.appendChild(roundHeader);
+        roundHeader.className = 'thankyou-round-header'; // Use the new round-header class
+        roundColumn.appendChild(roundHeader);
 
         if (round === 'Final Four' || round === 'National Champion' || round === 'Tiebreaker') {
             const list = document.createElement('ul');
@@ -384,14 +492,14 @@ function displayFormData() {
                     list.appendChild(listItem);
                 });
             }
-            formDataContainer.appendChild(list);
+            roundColumn.appendChild(list);
         } else {
             for (const [region, picks] of Object.entries(regions)) {
                 if (picks.length > 0) {
                     const regionHeader = document.createElement('h5');
                     regionHeader.textContent = region;
                     regionHeader.style.fontWeight = 'bold';
-                    formDataContainer.appendChild(regionHeader);
+                    roundColumn.appendChild(regionHeader);
 
                     const list = document.createElement('ul');
                     picks.forEach(pick => {
@@ -399,18 +507,54 @@ function displayFormData() {
                         listItem.textContent = pick;
                         list.appendChild(listItem);
                     });
-                    formDataContainer.appendChild(list);
+                    roundColumn.appendChild(list);
                 }
             }
         }
+
+        roundsContainer.appendChild(roundColumn);
     }
+
+    formDataContainer.appendChild(roundsContainer);
 }
 
 function printFormData() {
     window.print();
 }
 
+function validateEntryName() {
+    const entryName = document.getElementById('bracket_name').value;
+    const regex = /^[A-Za-z]/; // Regular expression to check if the first character is an alphabet
+    if (!regex.test(entryName)) {
+        alert('Bracket Entry Name must start with an alphabet character.');
+        return false;
+    }
+    if (entryName.endsWith(' ')) {
+        alert('Bracket Entry Name cannot end with a space.');
+        return false;
+    }
+    return true;
+}
+
+function validateParticipantDetails() {
+    const requiredFields = document.querySelectorAll('#participant-details input[required], #participant-details select[required]');
+    let isValid = true;
+    requiredFields.forEach(field => {
+        if (field.value === "") {
+            field.style.border = '2px solid #f8be08';
+            isValid = false;
+        } else {
+            field.style.border = ''; // Reset border
+        }
+    });
+    return isValid && validateEntryName();
+}
+
 function showPage(pageId) {
+    if (pageId === 'tl_tournament-picks' && !validateParticipantDetails()) {
+        return; // Prevent navigation if participant details are invalid
+    }
+
     updateFormData();
     if (validatePage()) {
         switchPage(pageId);
@@ -948,20 +1092,32 @@ function showWarningDialog(pageId) {
     <!--Page 1: Participant Details-->
     <div id="participant-details" class="page">
         <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge</h2>
-        
+        <p style="font-family: Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">
+            New to BRI? Learn more <a href="https://sites.google.com/view/bracketrankingindex/about-us?authuser=0" style="color: #0e0e5f;">About Us</a>.
+        </p>
         <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's start with a few things about you.</h3>
         <form onsubmit="event.preventDefault(); showPage('tl_tournament-picks');">
             <label for="first_name" class="participant-input" style="color: #0e0e5f">First Name:</label>
-            <input type="text" id="first_name" name="first_name" style="margin-left: 45px" required><br><br>
+            <input type="text" id="first_name" name="first_name" style="margin-left: 65px" required><br><br>
 
             <label for="last_name" class="participant-input" style="color: #0e0e5f">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" style="margin-left: 45px" required><br><br>
+            <input type="text" id="last_name" name="last_name" style="margin-left: 65px" required><br><br>
 
             <label for="email" class="participant-input" style="color: #0e0e5f">Email Address:</label>
-            <input type="email" id="email" name="email" style="margin-left: 24px" required><br><br>
+            <input type="email" id="email" name="email" style="margin-left: 44px" required>
+            <div class="tooltip" style="display: inline-block; margin-left: 5px;">
+                <span style="font-family: Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
+                <span class="tooltiptext">Please provide a personal email address. Work emails will not be accepted.</span>
+            </div><br><br>
 
+            <label for="bracket_name" class="participant-input" style="color: #0e0e5f">Bracket Entry Name:</label>
+            <input type="text" id="bracket_name" name="bracket_name" style="margin-left: 9px" minlength="5" maxlength="10" required>
+            <div class="tooltip" style="display: inline-block; margin-left: 5px;">
+                <span style="font-family: Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
+                <span class="tooltiptext">Choose a name for your bracket entry. If submitting multiple brackets, please use unique entry names. This name is what will appear in the challenge standings. It should be between 5 and 10 characters long.</span>
+            </div><br><br>
             <label for="stateSelector" class="participant-input" style="color: #0e0e5f">Select Your State:</label>
-            <select id="stateSelector" name="stateSelector" style="margin-left: 10px" required>
+            <select id="stateSelector" name="stateSelector" style="margin-left: 27px" required>
                 <option value="">Select a state</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -1746,7 +1902,6 @@ function showWarningDialog(pageId) {
         
         </div>
         </form>
-        
     </div>
     
     
@@ -1801,9 +1956,8 @@ function showWarningDialog(pageId) {
                 </div>
             </section>
         </div><br><br>
-        <input class="button-selections" type="submit" value="Submit"><br>
-        <p style="font-family: Arial, sans-serif; font-weight: bolder; font-size:small; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Plase wait a moment after submitting your bracket. Do not press the submit button multiple times as it may cause unexpected behavior.
-    </form>
+        <input class="button-selections" type="submit" value="Submit" id="submit-button"><br>
+        </form>
 </div>
 <!-- Page 6: Thank You -->
 <div id="thankyou" class="page hidden">
