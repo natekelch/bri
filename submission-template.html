@@ -1,143 +1,147 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <style>
+        /* Container for the entire page */
         .container {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        flex-wrap: nowrap; /* Prevent wrapping */
-        font-family: Arial, sans-serif;
-        font-size: small;
-        margin: 0;
-        padding: 0;
-    }
-
-    .page {
-        display: inline-block;
-        vertical-align: top;
-        width: 100%;
-    }
-
-    /* Add media query for narrow screens */
-    @media (max-width: 768px) {
-        .container {
-            flex-direction: row;
-            overflow-x: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: nowrap; /* Prevent wrapping */
+            font-family: Arial, sans-serif;
+            font-size: small;
+            margin: 0;
+            padding: 0;
         }
-    }
 
-    @media print {
-        body * {
-            visibility: hidden;
+        .page {
+            display: inline-block;
+            vertical-align: top;
+            width: 100%;
         }
-        #thankyou, #thankyou * {
-            visibility: visible;
+
+        /* Add media query for narrow screens */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: row;
+                overflow-x: auto;
+            }
         }
+
+        /* Print styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #thankyou, #thankyou * {
+                visibility: visible;
+            }
+            #thankyou {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    
+        /* Thank you section styles */
         #thankyou {
-            position: absolute;
-            left: 0;
-            top: 0;
+            font-family: Arial, sans-serif;
         }
-    }
     
+        #thankyou ul {
+            list-style-type: none; /* Remove bullets */
+            padding-left: 0; /* Remove default padding */
+        }
 
-    
-    #thankyou {
-    font-family: Arial, sans-serif;
-}
-    
-    #thankyou ul {
-    list-style-type: none; /* Remove bullets */
-    padding-left: 0; /* Remove default padding */
-}
+        .thankyou-round-header {
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            height: 30px; 
+            line-height: normal; /* Reset line height */
+            border-bottom: 2px solid #1c4587; /* Add a bottom border */
+            text-align: center; /* Center the text horizontally */
+            font-weight: bold; /* Make the text bold */
+            background-color: #0e0e5f; /* Background color */
+            color: #FFFFFF; /* Font color */
+            font-family: Arial, sans-serif; /* Font family */
+            margin: 0px;
+            padding: 10px; /* Add padding for better appearance */
+            white-space: normal; /* Allow text to wrap */
+            word-wrap: break-word; /* Break long words if necessary */
+            max-width: 200px; /* Set a maximum width for the headers */
+        }   
 
-.thankyou-round-header {
-    height: 45px; 
-    line-height: normal; /* Reset line height */
-    border-bottom: 2px solid #1c4587; /* Add a bottom border */
-    text-align: center; /* Center the text horizontally */
-    font-weight: bold; /* Make the text bold */
-    background-color: #0e0e5f; /* Background color */
-    color: #FFFFFF; /* Font color */
-    font-family: Arial, sans-serif; /* Font family */
-    margin: 0px;
-    padding: 10px; /* Add padding for better appearance */
-    white-space: normal; /* Allow text to wrap */
-    word-wrap: break-word; /* Break long words if necessary */
-    max-width: 200px; /* Set a maximum width for the headers */
-}
+        #form-data-container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
 
-#form-data-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
+        #form-data-container > div {
+            flex: 1;
+            margin: 10px;
+        }
 
-#form-data-container > div {
-    flex: 1;
-    margin: 10px;
-}
+        #rounds-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-#rounds-container {
-    display: flex;
-    flex-wrap: wrap;
-}
+        #rounds-container > div {
+            flex: 1;
+            margin: 0px;
+            padding: 0px;
+        }
 
-#rounds-container > div {
-    flex: 1;
-    margin: 0px;
-    padding: 0px;
-}
+        /* Tooltip container */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
 
-/* Tooltip container */
-.tooltip {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
+        /* Tooltip text */
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #0e0e5f;
+            color: #fff;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: small;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
 
-/* Tooltip text */
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 200px;
-    background-color: #0e0e5f;
-    color: #fff;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    font-size: small;
-    border-radius: 5px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%; /* Position the tooltip above the text */
-    left: 50%;
-    margin-left: -100px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
+        /* Tooltip arrow */
+        .tooltip .tooltiptext::after {
+            content: "";
+            font-family: Arial, sans-serif;
+            font-size: small;
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #0e0e5f transparent transparent transparent;
+        }
 
-/* Tooltip arrow */
-.tooltip .tooltiptext::after {
-    content: "";
-    font-family: Arial, sans-serif;
-    font-size: small;
-    position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #0e0e5f transparent transparent transparent;
-}
-
-/* Show the tooltip text when hovering over the tooltip container */
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-
+        /* Show the tooltip text when hovering over the tooltip container */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Participant button styles */
         .button-participant {
             font-family: Arial, sans-serif;
             font-weight: bold;
@@ -157,6 +161,7 @@
             transform: translateY(2px); /* Moves the button down slightly */
         }
 
+        /* Selection button styles */
         .button-selections {
             font-family: Arial, sans-serif;
             font-weight: bold;
@@ -176,61 +181,31 @@
             transform: translateY(2px); /* Moves the button down slightly */
         }
 
+        /* Header styles */
         .blue-header {
-           margin-right: 0px;
-            /* Add margin to the right */
-            flex: 1;
-            /* Allow all headers to have equal space */
-            font-weight: bold;
-            /* Bold the text */
-            background-color: #0e0e5f;
-            /* Background color */
-            font: 100;
-            color: #FFFFFF;
-            /* Font color */
+            margin-right: 0px; /* Add margin to the right */
+            flex: 1; /* Allow all headers to have equal space */
+            background-color: #0e0e5f; /* Background color */
+            color: #FFFFFF; /* Font color */
             font-family: Arial, sans-serif;
-            padding: 5px;
-            /* Optional: Add some padding for better appearance */
-            border-radius: 0px;
-            /* Optional: Rounded corners */
-        }
-        .gray-header {
-           margin-right: 0px;
-            /* Add margin to the right */
-            flex: 1;
-            /* Allow all headers to have equal space */
-            background-color: #ffffff;
-            /* Background color */
-            font: 100;
-            color: #0e0e5f;
-            /* Font color */
-            font-family: Arial, sans-serif;
-            padding: 5px;
-            /* Optional: Add some padding for better appearance */
-            border-radius: 0px;
-            /* Optional: Rounded corners */
-            font-size: 10px;
-            font-style: italic;
-        }
-        .yellow-header {
-           margin-right: 0px;
-            /* Add margin to the right */
-            flex: 1;
-            /* Allow all headers to have equal space */
-            font-weight: bold;
-            /* Bold the text */
-            background-color: #f8be08;
-            /* Background color */
-            font: 100;
-            color: #0e0e5f;
-            /* Font color */
-            font-family: Arial, sans-serif;
-            padding: 5px;
-            /* Optional: Add some padding for better appearance */
-            border-radius: 0px;
-            /* Optional: Rounded corners */
+            font-weight: bold; /* Bold the text */
+            padding: 5px; /* Optional: Add some padding for better appearance */
+            border-radius: 0px; /* Optional: Rounded corners */
         }
 
+        .gray-header {
+            margin-right: 0px; /* Add margin to the right */
+            flex: 1; /* Allow all headers to have equal space */
+            background-color: #ffffff; /* Background color */
+            color: #0e0e5f; /* Font color */
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            font-style: italic;
+            padding: 5px; /* Optional: Add some padding for better appearance */
+            border-radius: 0px; /* Optional: Rounded corners */
+        }
+
+        /* Participant input test labels */    
         .participant-input {
             font-family: Arial, sans-serif;
             font-size: 14px;
@@ -1093,7 +1068,7 @@ function showWarningDialog(pageId) {
     <div id="participant-details" class="page">
         <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
         <p style="font-family: Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">
-            New to BRI? Learn more <a href="https://sites.google.com/view/bracketrankingindex/about-us" style="color: #0e0e5f;">About Us</a>.
+            New to BRI? Check out our <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> before you sign up.
         </p>
         <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's start with a few things about you.</h3>
         <form onsubmit="event.preventDefault(); showPage('tl_tournament-picks');">
@@ -1963,10 +1938,17 @@ function showWarningDialog(pageId) {
 <div id="thankyou" class="page hidden">
     <h2 class="blue-header" style="text-align: left; margin-top: 5px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
     <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Thank you for your submission!</h3>
+    <p style="font-family: Arial, sans-serif; font-size: small; font-weight: bold; color: #0e0e5f; text-align: left; margin: 10px 0;">
+        Important: Once you leave this page, you cannot return.
+    </p>
     <p style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 10px 0;">
         If you haven't already, don't forget to pay your entry fee. Check out the <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> for more details.
     </p>
-    <button class="button-selections" onclick="printFormData()">Print</button>
+    <p style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
+        You should receive an email once the tournament kicks off with additional details. If you don't receive any communications, please check your spam folder and add bracketrankingindex@gmail.com to your trusted contacts.</p>
+        <p style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 10px 0;">
+        Additionally, you can track tournament results live at <a href="https://sites.google.com/view/bracketrankingindex/bri-hub" style="color: #0e0e5f;">https://sites.google.com/view/bracketrankingindex/bri-hub</a>.</p>
+        <button class="button-selections" onclick="printFormData()">Print</button>
     <button class="button-selections" onclick="submitAnotherBracket()">Run it Back</button>
     <div id="form-data-container">
         <!-- Form data will be displayed here -->
