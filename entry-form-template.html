@@ -159,15 +159,6 @@
             });
         }
 
-        function validateAllPages() {
-            // Add your validation logic here
-            return true;
-        }
-
-        function displayFormData() {
-            // Add your logic to display form data on the thank you page
-        }
-
         function switchPage(pageId) {
             const pages = document.getElementsByClassName('page');
             for (let i = 0; i < pages.length; i++) {
@@ -178,11 +169,6 @@
 
         function submitForm() {
             updateFormData(); // Ensure form data is updated
-
-            if (!validateAllPages()) {
-                alert('Please fill out all required fields before submitting.');
-                return;
-            }
 
             // Disable the submit button
             const submitButton = document.getElementById('submit-button');
