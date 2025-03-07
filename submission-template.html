@@ -213,20 +213,20 @@
             margin-bottom: 0px
         }
 
+        /* Bracket styles */
         .first-round,
         .second-round,
         .sweet16,
         .elite8,
         .final4 {
-            flex: 1;
-            /* Equal space for all sections */
-            text-align: center;
-            /* Center the text inside */
+            flex: 1; /* Equal space for all sections */
+            text-align: center; /* Center the text inside */
         }
 
         .first-round {
-        min-width: 125px; /* Set a minimum width for the first round */
-    }
+            min-width: 125px; /* Set a minimum width for the first round */
+        }
+        
         .centered-matchup {
             align-items: center;
             justify-content: center;
@@ -234,6 +234,7 @@
             margin-bottom: 0px;
             Height: 15px; 
         }
+
         .right-border {
             border-right: 2px solid #1c4587;
             height: 15px;
@@ -254,6 +255,7 @@
             padding: 0;
         }
         
+        /* Misc styles */
         .hidden {
             display: none;
         }
@@ -281,6 +283,7 @@
             font-size: small;
         }
 
+        /* Warning dialog styles */
         #warning-dialog {
             position: fixed;
             top: 50%;
@@ -296,202 +299,199 @@
 
     </style>
     <script>
-        
-    let formData = {};
+        let formData = {};
 
-function updateFormData() {
-    const currentPage = document.querySelector('.page:not(.hidden)');
-    const inputs = currentPage.querySelectorAll('input, select');
-    inputs.forEach(input => {
-        if (input.type !== 'submit') { // Exclude submit button
-            formData[input.name] = input.value;
+        function updateFormData() {
+            const currentPage = document.querySelector('.page:not(.hidden)');
+            const inputs = currentPage.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type !== 'submit') { // Exclude submit button
+                    formData[input.name] = input.value;
+                }
+            });
         }
-    });
-}
 
-function submitForm() {
-    updateFormData(); // Ensure form data is updated
-
-    if (!validateAllPages()) {
-        alert('Please fill out all required fields before submitting.');
-        return;
-    }
-
-    // Disable the submit button
-    const submitButton = document.getElementById('submit-button');
-    submitButton.disabled = true;
-
-    fetch('https://script.google.com/macros/s/AKfycbxJqKrhYM2fRacGv6v6O05tCbqK5bW8dKYNTXlJap8q9gZ5Kr5V3XMH-JDa6pUKQUBzsQ/exec', {
-        method: 'POST',
-        body: new URLSearchParams(formData)
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert(data);
-        displayFormData(); // Display form data on the thank you page
-        switchPage('thankyou'); // Show the Thank You page
-    })
-    .catch(error => console.error('Error:', error))
-    .finally(() => {
-        // Re-enable the submit button after 12 seconds
-        setTimeout(() => {
-            submitButton.disabled = false;
-        }, 12000);
-    });
-}
-
-function displayFormData() {
-    const formDataContainer = document.getElementById('form-data-container');
-    formDataContainer.innerHTML = ''; // Clear previous data
-
-    const participantDetails = {
-        'First Name': formData['first_name'],
-        'Last Name': formData['last_name'],
-        'Email Address': formData['email'],
-        'Bracket Entry Name': formData['bracket_name'], // Corrected key
-        'State': formData['stateSelector']
-    };
-
-    const rounds = {
-        'First Round': {
-            'Top Left': [],
-            'Bottom Left': [],
-            'Top Right': [],
-            'Bottom Right': []
-        },
-        'Second Round': {
-            'Top Left': [],
-            'Bottom Left': [],
-            'Top Right': [],
-            'Bottom Right': []
-        },
-        'Sweet Sixteen': {
-            'Top Left': [],
-            'Bottom Left': [],
-            'Top Right': [],
-            'Bottom Right': []
-        },
-        'Elite Eight': {
-            'Top Left': [],
-            'Bottom Left': [],
-            'Top Right': [],
-            'Bottom Right': []
-        },
-        'Final Four': [],
-        'National Champion': [],
-        'Tiebreaker': formData['tiebreaker_points'] // Add tiebreaker points
-    };
-
-    // Group form data by round and region
-    for (const [key, value] of Object.entries(formData)) {
-        if (key.startsWith('tl_round1')) {
-            rounds['First Round']['Top Left'].push(value);
-        } else if (key.startsWith('bl_round1')) {
-            rounds['First Round']['Bottom Left'].push(value);
-        } else if (key.startsWith('tr_round1')) {
-            rounds['First Round']['Top Right'].push(value);
-        } else if (key.startsWith('br_round1')) {
-            rounds['First Round']['Bottom Right'].push(value);
-        } else if (key.startsWith('tl_round2')) {
-            rounds['Second Round']['Top Left'].push(value);
-        } else if (key.startsWith('bl_round2')) {
-            rounds['Second Round']['Bottom Left'].push(value);
-        } else if (key.startsWith('tr_round2')) {
-            rounds['Second Round']['Top Right'].push(value);
-        } else if (key.startsWith('br_round2')) {
-            rounds['Second Round']['Bottom Right'].push(value);
-        } else if (key.startsWith('tl_sweet16')) {
-            rounds['Sweet Sixteen']['Top Left'].push(value);
-        } else if (key.startsWith('bl_sweet16')) {
-            rounds['Sweet Sixteen']['Bottom Left'].push(value);
-        } else if (key.startsWith('tr_sweet16')) {
-            rounds['Sweet Sixteen']['Top Right'].push(value);
-        } else if (key.startsWith('br_sweet16')) {
-            rounds['Sweet Sixteen']['Bottom Right'].push(value);
-        } else if (key.startsWith('tl_elite8')) {
-            rounds['Elite Eight']['Top Left'].push(value);
-        } else if (key.startsWith('bl_elite8')) {
-            rounds['Elite Eight']['Bottom Left'].push(value);
-        } else if (key.startsWith('tr_elite8')) {
-            rounds['Elite Eight']['Top Right'].push(value);
-        } else if (key.startsWith('br_elite8')) {
-            rounds['Elite Eight']['Bottom Right'].push(value);
-        } else if (key.startsWith('final4')) {
-            rounds['Final Four'].push(value);
-        } else if (key === 'national_champion') {
-            rounds['National Champion'].push(value);
-        }
-    }
-
-    // Create and append participant details
-    const participantHeader = document.createElement('h4');
-    participantHeader.textContent = 'Participant Details';
-    participantHeader.style.fontWeight = 'bold';
-    formDataContainer.appendChild(participantHeader);
-
-    const participantList = document.createElement('ul');
-    for (const [key, value] of Object.entries(participantDetails)) {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${key}: ${value}`;
-        participantList.appendChild(listItem);
-    }
-    formDataContainer.appendChild(participantList);
-
-    // Create and append headers and lists for each round and region
-    const roundsContainer = document.createElement('div');
-    roundsContainer.id = 'rounds-container'; // Ensure the ID is set correctly
-    roundsContainer.style.display = 'flex';
-    roundsContainer.style.flexWrap = 'wrap';
-
-    for (const [round, regions] of Object.entries(rounds)) {
-        const roundColumn = document.createElement('div');
-        roundColumn.style.flex = '1';
-        roundColumn.style.margin = '5px'; // Ensure the margin is set correctly
-        roundColumn.style.padding = '0'; // Remove padding
-
-        const roundHeader = document.createElement('h4');
-        roundHeader.textContent = round;
-        roundHeader.className = 'thankyou-round-header'; // Use the new round-header class
-        roundColumn.appendChild(roundHeader);
-
-        if (round === 'Final Four' || round === 'National Champion' || round === 'Tiebreaker') {
-            const list = document.createElement('ul');
-            if (round === 'Tiebreaker') {
-                const listItem = document.createElement('li');
-                listItem.textContent = regions;
-                list.appendChild(listItem);
-            } else {
-                regions.forEach(pick => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = pick;
-                    list.appendChild(listItem);
-                });
+        function submitForm() {
+            updateFormData(); // Ensure form data is updated
+            if (!validateAllPages()) {
+                alert('Please fill out all required fields before submitting.');
+                return;
             }
-            roundColumn.appendChild(list);
-        } else {
-            for (const [region, picks] of Object.entries(regions)) {
-                if (picks.length > 0) {
-                    const regionHeader = document.createElement('h5');
-                    regionHeader.textContent = region;
-                    regionHeader.style.fontWeight = 'bold';
-                    roundColumn.appendChild(regionHeader);
 
-                    const list = document.createElement('ul');
-                    picks.forEach(pick => {
+            // Disable the submit button
+            const submitButton = document.getElementById('submit-button');
+            submitButton.disabled = true;
+
+            fetch('https://script.google.com/macros/s/AKfycbxJqKrhYM2fRacGv6v6O05tCbqK5bW8dKYNTXlJap8q9gZ5Kr5V3XMH-JDa6pUKQUBzsQ/exec', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                displayFormData(); // Display form data on the thank you page
+                switchPage('thankyou'); // Show the Thank You page
+            })
+            .catch(error => console.error('Error:', error))
+            .finally(() => { // Re-enable the submit button after 12 seconds
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                }, 12000);
+            });
+        }
+
+    function displayFormData() {
+        const formDataContainer = document.getElementById('form-data-container');
+        formDataContainer.innerHTML = ''; // Clear previous data
+
+        const participantDetails = {
+            'First Name': formData['first_name'],
+            'Last Name': formData['last_name'],
+            'Email Address': formData['email'],
+            'Bracket Entry Name': formData['bracket_name'], // Corrected key
+            'State': formData['stateSelector']
+        };
+
+        const rounds = {
+            'First Round': {
+                'Top Left': [],
+                'Bottom Left': [],
+                'Top Right': [],
+                'Bottom Right': []
+            },
+            'Second Round': {
+                'Top Left': [],
+                'Bottom Left': [],
+                'Top Right': [],
+                'Bottom Right': []
+            },
+            'Sweet Sixteen': {
+                'Top Left': [],
+                'Bottom Left': [],
+                'Top Right': [],
+                'Bottom Right': []
+            },
+            'Elite Eight': {
+                'Top Left': [],
+                'Bottom Left': [],
+                'Top Right': [],
+                'Bottom Right': []
+            },
+            'Final Four': [],
+            'National Champion': [],
+            'Tiebreaker': formData['tiebreaker_points'] // Add tiebreaker points
+        };
+
+        // Group form data by round and region
+        for (const [key, value] of Object.entries(formData)) {
+            if (key.startsWith('tl_round1')) {
+                rounds['First Round']['Top Left'].push(value);
+            } else if (key.startsWith('bl_round1')) {
+                rounds['First Round']['Bottom Left'].push(value);
+            } else if (key.startsWith('tr_round1')) {
+                rounds['First Round']['Top Right'].push(value);
+            } else if (key.startsWith('br_round1')) {
+                rounds['First Round']['Bottom Right'].push(value);
+            } else if (key.startsWith('tl_round2')) {
+                rounds['Second Round']['Top Left'].push(value);
+            } else if (key.startsWith('bl_round2')) {
+                rounds['Second Round']['Bottom Left'].push(value);
+            } else if (key.startsWith('tr_round2')) {
+                rounds['Second Round']['Top Right'].push(value);
+            } else if (key.startsWith('br_round2')) {
+                rounds['Second Round']['Bottom Right'].push(value);
+            } else if (key.startsWith('tl_sweet16')) {
+                rounds['Sweet Sixteen']['Top Left'].push(value);
+            } else if (key.startsWith('bl_sweet16')) {
+                rounds['Sweet Sixteen']['Bottom Left'].push(value);
+            } else if (key.startsWith('tr_sweet16')) {
+                rounds['Sweet Sixteen']['Top Right'].push(value);
+            } else if (key.startsWith('br_sweet16')) {
+                rounds['Sweet Sixteen']['Bottom Right'].push(value);
+            } else if (key.startsWith('tl_elite8')) {
+                rounds['Elite Eight']['Top Left'].push(value);
+            } else if (key.startsWith('bl_elite8')) {
+                rounds['Elite Eight']['Bottom Left'].push(value);
+            } else if (key.startsWith('tr_elite8')) {
+                rounds['Elite Eight']['Top Right'].push(value);
+            } else if (key.startsWith('br_elite8')) {
+                rounds['Elite Eight']['Bottom Right'].push(value);
+            } else if (key.startsWith('final4')) {
+                rounds['Final Four'].push(value);
+            } else if (key === 'national_champion') {
+                rounds['National Champion'].push(value);
+            }
+        }
+
+        // Create and append participant details
+        const participantHeader = document.createElement('h4');
+        participantHeader.textContent = 'Participant Details';
+        participantHeader.style.fontWeight = 'bold';
+        formDataContainer.appendChild(participantHeader);
+
+        const participantList = document.createElement('ul');
+        for (const [key, value] of Object.entries(participantDetails)) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${key}: ${value}`;
+            participantList.appendChild(listItem);
+        }
+        formDataContainer.appendChild(participantList);
+
+        // Create and append headers and lists for each round and region
+        const roundsContainer = document.createElement('div');
+        roundsContainer.id = 'rounds-container'; // Ensure the ID is set correctly
+        roundsContainer.style.display = 'flex';
+        roundsContainer.style.flexWrap = 'wrap';
+
+        for (const [round, regions] of Object.entries(rounds)) {
+            const roundColumn = document.createElement('div');
+            roundColumn.style.flex = '1';
+            roundColumn.style.margin = '5px'; // Ensure the margin is set correctly
+            roundColumn.style.padding = '0'; // Remove padding
+
+            const roundHeader = document.createElement('h4');
+            roundHeader.textContent = round;
+            roundHeader.className = 'thankyou-round-header'; // Use the new round-header class
+            roundColumn.appendChild(roundHeader);
+
+            if (round === 'Final Four' || round === 'National Champion' || round === 'Tiebreaker') {
+                const list = document.createElement('ul');
+                if (round === 'Tiebreaker') {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = regions;
+                    list.appendChild(listItem);
+                } else {
+                    regions.forEach(pick => {
                         const listItem = document.createElement('li');
                         listItem.textContent = pick;
                         list.appendChild(listItem);
                     });
-                    roundColumn.appendChild(list);
+                }
+                roundColumn.appendChild(list);
+            } else {
+                for (const [region, picks] of Object.entries(regions)) {
+                    if (picks.length > 0) {
+                        const regionHeader = document.createElement('h5');
+                        regionHeader.textContent = region;
+                        regionHeader.style.fontWeight = 'bold';
+                        roundColumn.appendChild(regionHeader);
+
+                        const list = document.createElement('ul');
+                        picks.forEach(pick => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = pick;
+                            list.appendChild(listItem);
+                        });
+                        roundColumn.appendChild(list);
+                    }
                 }
             }
+
+            roundsContainer.appendChild(roundColumn);
         }
 
-        roundsContainer.appendChild(roundColumn);
-    }
-
-    formDataContainer.appendChild(roundsContainer);
-}
+        formDataContainer.appendChild(roundsContainer);
+    }l
 
 function printFormData() {
     window.print();
