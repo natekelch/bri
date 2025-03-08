@@ -38,12 +38,6 @@
                 flex-direction: row;
                 overflow-x: auto;
             }
-            .participant-input {
-                margin-left: 0; /* Remove left margin on smaller screens */
-            }
-            .participant-input + input {
-                margin-left: 0; /* Remove left margin on input fields on smaller screens */
-            }
         }
 
         /* Print styles */
@@ -164,14 +158,14 @@
     </style>
     <script>
         let formData = {};
-
+    
         function updateFormData() {
             const inputs = document.querySelectorAll('input, select');
             inputs.forEach(input => {
                 formData[input.name] = input.value;
             });
         }
-
+    
         function switchPage(pageId) {
             const pages = document.getElementsByClassName('page');
             for (let i = 0; i < pages.length; i++) {
@@ -179,14 +173,18 @@
             }
             document.getElementById(pageId).classList.remove('hidden');
         }
-
+    
+        function displayFormData() {
+            // Add your logic to display form data on the thank you page
+        }
+    
         function submitForm() {
             updateFormData(); // Ensure form data is updated
-
+    
             // Disable the submit button
             const submitButton = document.getElementById('submit-button');
             submitButton.disabled = true;
-
+    
             fetch('https://script.google.com/macros/s/AKfycbwLZ9FfX5c-fAYii9JhTNdLKaVxdQ6CFTu5x8nHsW9Bf6Z6ss4IROqzk43zMiP0qaKJ/exec', {
                 method: 'POST',
                 body: new URLSearchParams(formData)
@@ -220,8 +218,10 @@
         <p style="font-family: Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">
             New to BRI? Learn more <a href="https://sites.google.com/view/bracketrankingindex/about-us" style="color: #0e0e5f;">About Us</a> before you sign up.
         </p>
-        <p style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
-            You should receive an email shortly after the Selection Sunday show on Sunday, March 16th, with additional details. Additionally, you can return directly to this page to submit your bracket. If you don't receive any communications, please check your spam folder and add <a href="mailto:bracketrankingindex@gmail.com" style="color: #0e0e5f;">bracketrankingindex@gmail.com</a> to your trusted contacts.</p>
+        <ul style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
+            <li>You will receive an email shortly after the Selection Sunday show on Sunday, March 16th, with additional details. You can also return directly to this page to submit your bracket.</li>
+            <li>If you don't receive any communications, please check your spam folder and add <a href="mailto:bracketrankingindex@gmail.com" style="color: #0e0e5f;">bracketrankingindex@gmail.com</a> to your trusted contacts.</li>
+        </ul>
         <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's dance.</h3>
         <form onsubmit="event.preventDefault(); submitForm();">
             <label for="first_name" class="participant-input" style="color: #0e0e5f">First Name:</label>
@@ -242,9 +242,14 @@
 
 <!-- Page 6: Thank You -->
 <div id="thankyou" class="page hidden">
-    <h2 class="blue-header" style="text-align: left; margin-top: 5px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">2025 BRI Bracket Challenge Entry Form</h2>
+    <h2 class="blue-header header-container" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">
+        <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+        2025 Bracket Challenge</h2>
     <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Thank you for your entry!</h3>
-    
+    <ul style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
+        <li>You will receive an email shortly after the Selection Sunday show on Sunday, March 16th, with additional details. You can also return directly to this page to submit your bracket.</li>
+        <li>If you don't receive any communications, please check your spam folder and add <a href="mailto:bracketrankingindex@gmail.com" style="color: #0e0e5f;">bracketrankingindex@gmail.com</a> to your trusted contacts.</li>
+    </ul>
 </div>
 
 <!--Footer-->
