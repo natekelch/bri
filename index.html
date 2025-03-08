@@ -5,6 +5,7 @@
 
 <!DOCTYPE html>
 <html>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 <head>
     <style>
         /* Container for the entire page */
@@ -13,7 +14,7 @@
             align-items: flex-start;
             justify-content: space-between;
             flex-wrap: nowrap; /* Prevent wrapping */
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             font-size: small;
             margin: 0;
             padding: 0;
@@ -69,7 +70,7 @@
             background-color: #0e0e5f;
             color: #fff;
             text-align: center;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             font-size: small;
             border-radius: 5px;
             padding: 5px;
@@ -85,7 +86,7 @@
         /* Tooltip arrow */
         .tooltip .tooltiptext::after {
             content: "";
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             font-size: small;
             position: absolute;
             top: 100%; /* At the bottom of the tooltip */
@@ -104,7 +105,7 @@
 
         /* Selection button styles */
         .button-selections {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             font-weight: bold;
             color: #0e0e5f;
             width: 150px;
@@ -128,7 +129,7 @@
             flex: 1; /* Allow all headers to have equal space */
             background-color: #0e0e5f; /* Background color */
             color: #FFFFFF; /* Font color */
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             font-weight: bold; /* Bold the text */
             padding: 5px; /* Optional: Add some padding for better appearance */
             border-radius: 0px; /* Optional: Rounded corners */
@@ -136,7 +137,7 @@
 
         /* Participant input test labels */    
         .participant-input {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             font-size: 14px;
             margin-left: 20px;
             margin-bottom: 0px
@@ -212,17 +213,18 @@
         <h2 class="blue-header header-container" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">
             <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
             2025 Bracket Challenge</h2>
-        <p style="font-family: Arial, sans-serif; color: #0e0e5f; font-size:medium; font-weight: bold; font-style: italic; text-align: left; vertical-align: middle; margin-top: 0px; margin-bottom: 10px">
+        <p style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; font-size:medium; font-weight: bold; font-style: italic; text-align: left; vertical-align: middle; margin-top: 0px; margin-bottom: 10px">
         Sign up for the 9th Annual BRI Bracket Challenge.
         </p>
-        <p style="font-family: Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">
-            New to BRI? Learn more <a href="https://sites.google.com/view/bracketrankingindex/about-us" style="color: #0e0e5f;">About Us</a> before you sign up.
+        <p style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">
+            New to BRI? Learn more <a href="https://sites.google.com/view/bracketrankingindex/about-us" style="color: #0e0e5f;">About Us</a>
+            and check out the <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> before you sign up.
         </p>
-        <ul style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
+        <ul style="font-family: 'Poppins', Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
             <li>You will receive an email shortly after the Selection Sunday show on Sunday, March 16th, with additional details. You can also return directly to this page to submit your bracket.</li>
             <li>If you don't receive any communications, please check your spam folder and add <a href="mailto:bracketrankingindex@gmail.com" style="color: #0e0e5f;">bracketrankingindex@gmail.com</a> to your trusted contacts.</li>
         </ul>
-        <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's dance.</h3>
+        <h3 style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's dance.</h3>
         <form onsubmit="event.preventDefault(); submitForm();">
             <label for="first_name" class="participant-input" style="color: #0e0e5f">First Name:</label>
             <input type="text" id="first_name" name="first_name" style="margin-left: 65px" required><br><br>
@@ -231,9 +233,9 @@
             <input type="text" id="last_name" name="last_name" style="margin-left: 65px" required><br><br>
 
             <label for="email" class="participant-input" style="color: #0e0e5f">Email Address:</label>
-            <input type="email" id="email" name="email" style="margin-left: 44px" required>
+            <input type="email" id="email" name="email" style="margin-left: 40px" required>
             <div class="tooltip" style="display: inline-block; margin-left: 5px;">
-                <span style="font-family: Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
+                <span style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
                 <span class="tooltiptext">Please provide a personal email address. Work emails will not be accepted.</span>
             </div><br><br>
             <input class="button-selections" type="submit" value="Submit" id="submit-button"><br>
@@ -245,19 +247,20 @@
     <h2 class="blue-header header-container" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">
         <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
         2025 Bracket Challenge</h2>
-    <h3 style="font-family: Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Thank you for your entry!</h3>
-    <ul style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
+    <h3 style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Thank you for your entry!</h3>
+    <ul style="font-family: 'Poppins', Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: left; margin: 0x 0;">
         <li>You will receive an email shortly after the Selection Sunday show on Sunday, March 16th, with additional details. You can also return directly to this page to submit your bracket.</li>
         <li>If you don't receive any communications, please check your spam folder and add <a href="mailto:bracketrankingindex@gmail.com" style="color: #0e0e5f;">bracketrankingindex@gmail.com</a> to your trusted contacts.</li>
+        <li>In the meantime, check out the <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> to learn more.</li>
     </ul>
 </div>
 
 <!--Footer-->
 <footer class="footer">
-    <p style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: center; margin: 10px 0;">
+    <p style="font-family: 'Poppins', Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: center; margin: 10px 0;">
         Questions? Email us at <a href="mailto:bracketrankingindex@gmail.com" style="color: #0e0e5f;">bracketrankingindex@gmail.com</a>
     </p>
-    <p style="font-family: Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: center; margin: 10px 0;">
+    <p style="font-family: 'Poppins', Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: center; margin: 10px 0;">
         &copy; 2025 Bracking Ranking Index | All rights reserved.
     </p>
 </footer>
