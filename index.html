@@ -143,6 +143,44 @@
             margin-bottom: 0px
         }
         
+        /* Align participant details entry fields */
+        .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        }
+
+        .form-group label {
+            flex: 0 0 150px; /* Adjust the width as needed */
+            margin-right: 10px;
+        }
+
+        .form-group input,
+        .form-group select {
+            flex: 1;
+            max-width: 160px; /* Set a maximum width */
+        }
+
+        .form-group .tooltip {
+            margin-left: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 100%;
+            }
+        }
+
         .hidden {
             display: none;
         }
@@ -226,18 +264,22 @@
         </ul>
         <h3 style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's dance.</h3>
         <form onsubmit="event.preventDefault(); submitForm();">
-            <label for="first_name" class="participant-input" style="color: #0e0e5f">First Name:</label>
-            <input type="text" id="first_name" name="first_name" style="margin-left: 65px" required><br><br>
-
-            <label for="last_name" class="participant-input" style="color: #0e0e5f">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" style="margin-left: 65px" required><br><br>
-
-            <label for="email" class="participant-input" style="color: #0e0e5f">Email Address:</label>
-            <input type="email" id="email" name="email" style="margin-left: 40px" required>
-            <div class="tooltip" style="display: inline-block; margin-left: 5px;">
-                <span style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
-                <span class="tooltiptext">Please provide a personal email address. Work emails will not be accepted.</span>
-            </div><br><br>
+            <div class="form-group">
+                <label for="first_name" class="participant-input" style="color: #0e0e5f">First Name:</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div class="form-group">  
+                <label for="last_name" class="participant-input" style="color: #0e0e5f">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="email" class="participant-input" style="color: #0e0e5f">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+                <div class="tooltip" style="display: inline-block; margin-left: 5px;">
+                    <span style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
+                    <span class="tooltiptext">Please provide a personal email address. Work emails will not be accepted.</span>
+                </div>
+            </div>
             <input class="button-selections" type="submit" value="Submit" id="submit-button"><br>
         </form>
     </div>
