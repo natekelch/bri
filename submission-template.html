@@ -206,6 +206,7 @@
         .button-selections {
             font-family: 'Poppins', Arial, sans-serif;
             font-weight: bold;
+            font-size: smaller;
             color: #0e0e5f;
             width: 150px;
             padding: 5px 20px;
@@ -223,6 +224,19 @@
         }
 
         /* Header styles */
+        .blue-header-main {
+            margin-right: 0px; /* Add margin to the right */
+            flex: 1; /* Allow all headers to have equal space */
+            background-color: #0e0e5f; /* Background color */
+            color: #FFFFFF; /* Font color */
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: bold; /* Bold the text */
+            padding: 5px; /* Optional: Add some padding for better appearance */
+            border-radius: 0px; /* Optional: Rounded corners */
+            border-bottom: 5px solid #f8be08; /* Add a bottom border */
+            Margin-bottom: 5px;
+        }
+
         .blue-header {
             margin-right: 0px; /* Add margin to the right */
             flex: 1; /* Allow all headers to have equal space */
@@ -244,6 +258,13 @@
             font-style: italic;
             padding: 5px; /* Optional: Add some padding for better appearance */
             border-radius: 0px; /* Optional: Rounded corners */
+        }
+
+        /* Container for page headers */
+        .header-container {
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: left; /* Center horizontally */
         }
 
         /* Participant input test labels */    
@@ -1107,7 +1128,9 @@ function showWarningDialog(pageId) {
    
     <!--Page 1: Participant Details-->
     <div id="participant-details" class="page">
-        <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
         <p style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">
             New to BRI? Check out our <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> before you sign up.
         </p>
@@ -1201,7 +1224,9 @@ function showWarningDialog(pageId) {
 
     <!--Page 2: Top Left Region-->
     <div id="tl_tournament-picks" class="page hidden">
-        <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
         <button class="button-selections" type="button" onclick="showPage('participant-details');">Previous Page</button>
         <button class="button-selections" type="button" onclick="showPage('bl_tournament-picks');">Next Page</button><br><br>
         <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Top Left Region</h3>
@@ -1259,7 +1284,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Secound Round: First Round Winners | Dropdowns-->
                 <section id="tl_first-round" class="second-round">
-                    <p style="height: 30px; margin: 0; padding: 0;"></p>
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tl_round1_match1" name="tl_round1_match1" required>
                             <option value="">Select a team</option>
@@ -1267,7 +1292,7 @@ function showWarningDialog(pageId) {
                             <option value="tl_Seed 16">tl_Seed 16</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tl_round1_match2" name="tl_round1_match2" required>
                             <option value="">Select a team</option>
@@ -1275,7 +1300,7 @@ function showWarningDialog(pageId) {
                             <option value="tl_Seed 9">tl_Seed 9</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tl_round1_match3" name="tl_round1_match3" required>
                             <option value="">Select a team</option>
@@ -1299,7 +1324,7 @@ function showWarningDialog(pageId) {
                             <option value="tl_Seed 11">tl_Seed 11</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tl_round1_match6" name="tl_round1_match6" required>
                             <option value="">Select a team</option>
@@ -1307,7 +1332,7 @@ function showWarningDialog(pageId) {
                             <option value="tl_Seed 14">tl_Seed 14</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tl_round1_match7" name="tl_round1_match7" required>
                             <option value="">Select a team</option>
@@ -1315,7 +1340,7 @@ function showWarningDialog(pageId) {
                             <option value="tl_Seed 10">tl_Seed 10</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tl_round1_match8" name="tl_round1_match8" required>
                             <option value="">Select a team</option>
@@ -1326,25 +1351,25 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
                 <section id="tl_second-round" class="sweet16">
-                    <p style="height: 60px; margin: 0; padding: 0;"></p>
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tl_round2_match1" name="tl_round2_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tl_round2_match2" name="tl_round2_match2" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 85px;"></p>
+                    <p style="height: 84px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tl_round2_match3" name="tl_round2_match3" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tl_round2_match4" name="tl_round2_match4" required>
                             <option value="">Select a team</option>
@@ -1353,13 +1378,13 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
                 <section id="tl_sweet16" class="elite8">
-                    <p style="height: 120px; margin: 0; padding: 0;"></p>
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tl_sweet16_match1" name="tl_sweet16_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 237px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tl_sweet16_match2" name="tl_sweet16_match2" required>
                             <option value="">Select a team</option>
@@ -1368,7 +1393,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Final Four: Elite Eight Winners | Dropdowns-->
                 <section id="tl_elite8" class="final4">
-                    <p style="height: 240px; margin: 0; padding: 0;"></p>
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tl_elite8_match1" name="tl_elite8_match1" required>
                             <option value="">Select a team</option>
@@ -1383,7 +1408,9 @@ function showWarningDialog(pageId) {
 
     <!--Page 3: Bottom Left Region-->
     <div id="bl_tournament-picks" class="page hidden">
-        <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
         <button class="button-selections" type="button" onclick="showPage('tl_tournament-picks');">Previous Page</button>
         <button class="button-selections" type="button" onclick="showPage('tr_tournament-picks');">Next Page</button><br><br>
         <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Bottom Left Region</h3>
@@ -1441,7 +1468,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Secound Round: First Round Winners | Dropdowns-->
                 <section id="bl_first-round" class="second-round">
-                    <p style="height: 30px; margin: 0; padding: 0;"></p>
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="bl_round1_match1" name="bl_round1_match1" required>
                             <option value="">Select a team</option>
@@ -1449,7 +1476,7 @@ function showWarningDialog(pageId) {
                             <option value="bl_Seed 16">bl_Seed 16</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="bl_round1_match2" name="bl_round1_match2" required>
                             <option value="">Select a team</option>
@@ -1457,7 +1484,7 @@ function showWarningDialog(pageId) {
                             <option value="bl_Seed 9">bl_Seed 9</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="bl_round1_match3" name="bl_round1_match3" required>
                             <option value="">Select a team</option>
@@ -1481,7 +1508,7 @@ function showWarningDialog(pageId) {
                             <option value="bl_Seed 11">bl_Seed 11</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="bl_round1_match6" name="bl_round1_match6" required>
                             <option value="">Select a team</option>
@@ -1489,7 +1516,7 @@ function showWarningDialog(pageId) {
                             <option value="bl_Seed 14">bl_Seed 14</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="bl_round1_match7" name="bl_round1_match7" required>
                             <option value="">Select a team</option>
@@ -1497,7 +1524,7 @@ function showWarningDialog(pageId) {
                             <option value="bl_Seed 10">bl_Seed 10</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="bl_round1_match8" name="bl_round1_match8" required>
                             <option value="">Select a team</option>
@@ -1508,25 +1535,25 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
                 <section id="bl_second-round" class="sweet16">
-                    <p style="height: 60px; margin: 0; padding: 0;"></p>
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="bl_round2_match1" name="bl_round2_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="bl_round2_match2" name="bl_round2_match2" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 85px;"></p>
+                    <p style="height: 84px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="bl_round2_match3" name="bl_round2_match3" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="bl_round2_match4" name="bl_round2_match4" required>
                             <option value="">Select a team</option>
@@ -1535,13 +1562,13 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
                 <section id="bl_sweet16" class="elite8">
-                    <p style="height: 120px; margin: 0; padding: 0;"></p>
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="bl_sweet16_match1" name="bl_sweet16_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 237px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="bl_sweet16_match2" name="bl_sweet16_match2" required>
                             <option value="">Select a team</option>
@@ -1550,7 +1577,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Final Four: Elite Eight Winners | Dropdowns-->
                 <section id="bl_elite8" class="final4">
-                    <p style="height: 240px; margin: 0; padding: 0;"></p>
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="bl_elite8_match1" name="bl_elite8_match1" required>
                             <option value="">Select a team</option>
@@ -1565,7 +1592,9 @@ function showWarningDialog(pageId) {
     </div>
     <!--Page 4: Top Left Region-->
     <div id="tr_tournament-picks" class="page hidden">
-        <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
         <button class="button-selections" type="button" onclick="showPage('bl_tournament-picks');">Previous Page</button>
         <button class="button-selections" type="button" onclick="showPage('br_tournament-picks');">Next Page</button><br><br>
         <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Top Right Region</h3>
@@ -1623,7 +1652,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Secound Round: First Round Winners | Dropdowns-->
                 <section id="tr_first-round" class="second-round">
-                    <p style="height: 30px; margin: 0; padding: 0;"></p>
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tr_round1_match1" name="tr_round1_match1" required>
                             <option value="">Select a team</option>
@@ -1631,7 +1660,7 @@ function showWarningDialog(pageId) {
                             <option value="tr_Seed 16">tr_Seed 16</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tr_round1_match2" name="tr_round1_match2" required>
                             <option value="">Select a team</option>
@@ -1639,7 +1668,7 @@ function showWarningDialog(pageId) {
                             <option value="tr_Seed 9">tr_Seed 9</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tr_round1_match3" name="tr_round1_match3" required>
                             <option value="">Select a team</option>
@@ -1663,7 +1692,7 @@ function showWarningDialog(pageId) {
                             <option value="tr_Seed 11">tr_Seed 11</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tr_round1_match6" name="tr_round1_match6" required>
                             <option value="">Select a team</option>
@@ -1671,7 +1700,7 @@ function showWarningDialog(pageId) {
                             <option value="tr_Seed 14">tr_Seed 14</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tr_round1_match7" name="tr_round1_match7" required>
                             <option value="">Select a team</option>
@@ -1679,7 +1708,7 @@ function showWarningDialog(pageId) {
                             <option value="tr_Seed 10">tr_Seed 10</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tr_round1_match8" name="tr_round1_match8" required>
                             <option value="">Select a team</option>
@@ -1690,25 +1719,25 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
                 <section id="tr_second-round" class="sweet16">
-                    <p style="height: 60px; margin: 0; padding: 0;"></p>
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tr_round2_match1" name="tr_round2_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tr_round2_match2" name="tr_round2_match2" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 85px;"></p>
+                    <p style="height: 84px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tr_round2_match3" name="tr_round2_match3" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tr_round2_match4" name="tr_round2_match4" required>
                             <option value="">Select a team</option>
@@ -1717,13 +1746,13 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
                 <section id="tr_sweet16" class="elite8">
-                    <p style="height: 120px; margin: 0; padding: 0;"></p>
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tr_sweet16_match1" name="tr_sweet16_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 237px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="tr_sweet16_match2" name="tr_sweet16_match2" required>
                             <option value="">Select a team</option>
@@ -1732,7 +1761,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Final Four: Elite Eight Winners | Dropdowns-->
                 <section id="tr_elite8" class="final4">
-                    <p style="height: 240px; margin: 0; padding: 0;"></p>
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="tr_elite8_match1" name="tr_elite8_match1" required>
                             <option value="">Select a team</option>
@@ -1747,7 +1776,9 @@ function showWarningDialog(pageId) {
     </div>
     <!--Page 5: Bottom Right Region-->
     <div id="br_tournament-picks" class="page hidden">
-        <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
         <button class="button-selections" type="button" onclick="showPage('tr_tournament-picks');">Previous Page</button>
         <button class="button-selections" type="button" onclick="showPage('final4_tournament-picks');">Next Page</button><br><br>
         <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Bottom Right Region</h3>
@@ -1805,7 +1836,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Secound Round: First Round Winners | Dropdowns-->
                 <section id="br_first-round" class="second-round">
-                    <p style="height: 30px; margin: 0; padding: 0;"></p>
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="br_round1_match1" name="br_round1_match1" required>
                             <option value="">Select a team</option>
@@ -1813,7 +1844,7 @@ function showWarningDialog(pageId) {
                             <option value="br_Seed 16">br_Seed 16</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="br_round1_match2" name="br_round1_match2" required>
                             <option value="">Select a team</option>
@@ -1821,7 +1852,7 @@ function showWarningDialog(pageId) {
                             <option value="br_Seed 9">br_Seed 9</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="br_round1_match3" name="br_round1_match3" required>
                             <option value="">Select a team</option>
@@ -1845,7 +1876,7 @@ function showWarningDialog(pageId) {
                             <option value="br_Seed 11">br_Seed 11</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="br_round1_match6" name="br_round1_match6" required>
                             <option value="">Select a team</option>
@@ -1853,7 +1884,7 @@ function showWarningDialog(pageId) {
                             <option value="br_Seed 14">br_Seed 14</option>
                         </select>
                     </div>
-                    <p style="height: 20px;"></p>
+                    <p style="height: 20.5px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="br_round1_match7" name="br_round1_match7" required>
                             <option value="">Select a team</option>
@@ -1861,7 +1892,7 @@ function showWarningDialog(pageId) {
                             <option value="br_Seed 10">br_Seed 10</option>
                         </select>
                     </div>
-                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="br_round1_match8" name="br_round1_match8" required>
                             <option value="">Select a team</option>
@@ -1872,25 +1903,25 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
                 <section id="br_second-round" class="sweet16">
-                    <p style="height: 60px; margin: 0; padding: 0;"></p>
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="br_round2_match1" name="br_round2_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="br_round2_match2" name="br_round2_match2" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 85px;"></p>
+                    <p style="height: 84px;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="br_round2_match3" name="br_round2_match3" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 109px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="br_round2_match4" name="br_round2_match4" required>
                             <option value="">Select a team</option>
@@ -1899,13 +1930,13 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
                 <section id="br_sweet16" class="elite8">
-                    <p style="height: 120px; margin: 0; padding: 0;"></p>
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="br_sweet16_match1" name="br_sweet16_match1" required>
                             <option value="">Select a team</option>
                         </select>
                     </div>
-                    <p style="height: 237px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                         <select id="br_sweet16_match2" name="br_sweet16_match2" required>
                             <option value="">Select a team</option>
@@ -1914,7 +1945,7 @@ function showWarningDialog(pageId) {
                 </section>
                 <!--Final Four: Elite Eight Winners | Dropdowns-->
                 <section id="br_elite8" class="final4">
-                    <p style="height: 240px; margin: 0; padding: 0;"></p>
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                         <select id="br_elite8_match1" name="br_elite8_match1" required>
                             <option value="">Select a team</option>
@@ -1930,7 +1961,9 @@ function showWarningDialog(pageId) {
     
 <!-- Page 5: Final Four -->
 <div id="final4_tournament-picks" class="page hidden">
-    <h2 class="blue-header" style="text-align: left; margin-top: 0px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
+    <h2 class="blue-header-main header-container">
+        <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+        YYYY Bracket Challenge Entry Form</h2>
         <button class="button-selections" type="button" onclick="showPage('br_tournament-picks');">Previous Page</button>
         <br><br>
         <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Final Four</h3>
@@ -1948,13 +1981,13 @@ function showWarningDialog(pageId) {
         <div class="container">
             <!-- Final Four: Elite Eight Winners | Dropdowns -->
             <section id="final4" class="elite8">
-                <p style="height: 40px; margin: 0; padding: 0;"></p>
+                <P class="blank"></P>
                     <div class="centered-matchup bottom-border">
                     <select id="final4_match1" name="final4_match1" required>
                         <option value="">Select a team</option>
                     </select>
                 </div>
-                <p style="height: 237px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                <p style="height: 110px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border right-border">
                     <select id="final4_match2" name="final4_match2" required>
                         <option value="">Select a team</option>
@@ -1963,7 +1996,7 @@ function showWarningDialog(pageId) {
             </section>
             <!-- National Champion: Final Four Winners | Dropdown -->
             <section id="champion" class="final4">
-                <p style="height: 157px; margin: 0; padding: 0;"></p>
+                <p style="height: 79px; margin: 0; padding: 0;"></p>
                     <div class="centered-matchup bottom-border">
                     <select id="national_champion" name="national_champion" required>
                         <option value="">Select a team</option>
@@ -1972,7 +2005,7 @@ function showWarningDialog(pageId) {
             </section>
             <!-- Tiebreaker: Enter a number -->
             <section id="tiebreaker" class="final4">
-                <p style="height: 147px; margin: 0; padding: 0;"></p>
+                <p style="height: 54px; margin: 0; padding: 0;"></p>
                 <div class="centered-matchup blank">
                     <label for="tiebreaker_points" style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f;">Tiebreaker: Total Pts Scored</label>
                     <input type="number" id="tiebreaker_points" name="tiebreaker_points" required>
@@ -1984,7 +2017,9 @@ function showWarningDialog(pageId) {
 </div>
 <!-- Page 6: Thank You -->
 <div id="thankyou" class="page hidden">
-    <h2 class="blue-header" style="text-align: left; margin-top: 5px; margin-bottom: 5px; border-bottom: 5px solid #f8be08">YYYY BRI Bracket Challenge Entry Form</h2>
+    <h2 class="blue-header-main header-container">
+        <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+        YYYY Bracket Challenge Entry Form</h2>
     <h3 style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Thank you for your submission!</h3>
     <p style="font-family: 'Poppins', Arial, sans-serif; font-size: smaller; font-weight: bold; color: #0e0e5f; text-align: left; margin: 10px 0;">
         Important: Once you leave this page, you cannot return.
@@ -2000,7 +2035,8 @@ function showWarningDialog(pageId) {
         <!-- Form data will be displayed here -->
     </div>
 </div>
-<div id="warning-dialog" style="display: none;">
+
+<div id="warning-dialog" style="display: none; font-size:small;">
     <p style="font-family: 'Poppins', Arial, sans-serif">Please make sure to fill out all required fields before proceeding.</p>
     <button class="button-selections" id="proceed-button">Proceed Anyway</button>
     <button class="button-selections" id="cancel-button">Go Back</button>
