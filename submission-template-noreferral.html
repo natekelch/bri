@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<!-- WARNING CURRENTLY CONNETED TO LIVE BRI WORKBOOK -->
+<html>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<head>
+    <style>
+        /* Container for the entire page */
+        .container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: nowrap; /* Prevent wrapping */
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: small;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page {
+            display: inline-block;
+            vertical-align: top;
+            width: 100%;
+        }
+
+        /* Align participant details entry fields */
+        .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        }
+
+        .form-group label {
+            flex: 0 0 150px; /* Adjust the width as needed */
+            margin-right: 10px;
+        }
+
+        .form-group input,
+        .form-group select {
+            flex: 1;
+            max-width: 160px; /* Set a maximum width */
+        }
+
+        .form-group input[type="checkbox"] {
+            flex: 0; /* Prevent the checkbox from stretching */
+            margin-right: 10px; /* Add some space between the checkbox and the label */
+        }   
+
+        .form-group .tooltip {
+            margin-left: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 100%;
+            }
+        }
+    
+        /* Add media query for narrow screens */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #thankyou, #thankyou * {
+                visibility: visible;
+            }
+            #thankyou {
+                position: absolute;
+                left: 0;
+                top: 0;
+                font-size: smaller;
+            }
+        }
+    
+        /* Thank you section styles */
+        #thankyou {
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+    
+        #thankyou ul {
+            list-style-type: none; /* Remove bullets */
+            padding-left: 0; /* Remove default padding */
+        }
+
+        .thankyou-round-header {
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            height: 20px; 
+            line-height: normal; /* Reset line height */
+            border-bottom: 2px solid #1c4587; /* Add a bottom border */
+            text-align: center; /* Center the text horizontally */
+            font-weight: bold; /* Make the text bold */
+            background-color: #0e0e5f; /* Background color */
+            color: #FFFFFF; /* Font color */
+            font-family: 'Poppins', Arial, sans-serif; /* Font family */
+            margin: 0px;
+            padding: 10px; /* Add padding for better appearance */
+            white-space: normal; /* Allow text to wrap */
+            word-wrap: break-word; /* Break long words if necessary */
+            max-width: 200px; /* Set a maximum width for the headers */
+        }   
+
+        #form-data-container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            font-size: smaller; /* Reduce the font size */
+        }
+
+        #form-data-container ul {
+            list-style-type: none; /* Remove bullets */
+            padding-left: 0; /* Remove default padding */
+        }
+
+        #rounds-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #rounds-container > div {
+            flex: 1;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        /* Tooltip container */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* Tooltip text */
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #0e0e5f;
+            color: #fff;
+            text-align: center;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: small;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* Tooltip arrow */
+        .tooltip .tooltiptext::after {
+            content: "";
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: small;
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #0e0e5f transparent transparent transparent;
+        }
+
+        /* Show the tooltip text when hovering over the tooltip container */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Participant button styles */
+        .button-participant {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: bold;
+            color: #0e0e5f;
+            width: 150px;
+            padding: 5px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f8be08;
+            margin-left: 0px;
+            Margin-bottom: 5px;
+            box-shadow: 0 4px #ccc; /* Adds shadow underneath the button */
+            transition: all 0.2s ease; /* Smooth transition for hover effect */
+        }
+        .button-participant:hover {
+            box-shadow: 0 2px #aaa; /* Slightly lighter shadow on hover */
+            transform: translateY(2px); /* Moves the button down slightly */
+        }
+
+        /* Selection button styles */
+        .button-selections {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: bold;
+            font-size: smaller;
+            color: #0e0e5f;
+            width: 150px;
+            padding: 5px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f8be08;
+            margin-left: 0px;
+            Margin-bottom: 5px;
+            box-shadow: 0 4px #ccc; /* Adds shadow underneath the button */
+            transition: all 0.2s ease; /* Smooth transition for hover effect */
+        }
+        .button-selections:hover {
+            box-shadow: 0 2px #aaa; /* Slightly lighter shadow on hover */
+            transform: translateY(2px); /* Moves the button down slightly */
+        }
+
+        /* Header styles */
+        .blue-header-main {
+            margin-right: 0px; /* Add margin to the right */
+            flex: 1; /* Allow all headers to have equal space */
+            background-color: #0e0e5f; /* Background color */
+            color: #FFFFFF; /* Font color */
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: bold; /* Bold the text */
+            padding: 5px; /* Optional: Add some padding for better appearance */
+            border-radius: 0px; /* Optional: Rounded corners */
+            border-bottom: 5px solid #f8be08; /* Add a bottom border */
+            Margin-bottom: 5px;
+        }
+
+        .blue-header {
+            margin-right: 0px; /* Add margin to the right */
+            flex: 1; /* Allow all headers to have equal space */
+            background-color: #0e0e5f; /* Background color */
+            color: #FFFFFF; /* Font color */
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: bold; /* Bold the text */
+            padding: 5px; /* Optional: Add some padding for better appearance */
+            border-radius: 0px; /* Optional: Rounded corners */
+        }
+
+        .gray-header {
+            margin-right: 0px; /* Add margin to the right */
+            flex: 1; /* Allow all headers to have equal space */
+            background-color: #ffffff; /* Background color */
+            color: #0e0e5f; /* Font color */
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 10px;
+            font-style: italic;
+            padding: 5px; /* Optional: Add some padding for better appearance */
+            border-radius: 0px; /* Optional: Rounded corners */
+        }
+
+        /* Container for page headers */
+        .header-container {
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: left; /* Center horizontally */
+        }
+
+        /* Participant input test labels */    
+        .participant-input {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 14px;
+            margin-left: 20px;
+            margin-bottom: 0px
+        }
+
+        .first-round,
+        .second-round,
+        .sweet16,
+        .elite8,
+        .final4 {
+            flex: 1;
+            /* Equal space for all sections */
+            text-align: center;
+            /* Center the text inside */
+        }
+
+        .first-round {
+        min-width: 125px; /* Set a minimum width for the first round */
+    }
+        .centered-matchup {
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 0px;
+            Height: 15px; 
+        }
+        .right-border {
+            border-right: 2px solid #1c4587;
+            height: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .bottom-border {
+            border-bottom: 2px solid #1c4587;
+            height: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .blank {
+            height: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        h4, h5 {
+            color: #0e0e5f;
+            margin-top: 5px;
+            margin-bottom: 0px;
+            padding: 0;
+        }
+
+        ul {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            font-size: smaller;
+            padding: 0;
+}
+
+        .footer {
+            padding: 5px 0;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+            font-size: small;
+        }
+
+        #warning-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid black;
+            padding: 20px;
+            width: 150px;
+            z-index: 1000;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+    </style>
+    <script>
+        
+    let formData = {};
+
+    function updateFormData() {
+        const currentPage = document.querySelector('.page:not(.hidden)');
+        const inputs = currentPage.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            if (input.type === 'checkbox') {
+                formData[input.name] = input.checked ? 'yes' : 'no';
+            } else if (input.type !== 'submit') { // Exclude submit button
+                formData[input.name] = input.value;
+            }
+        });
+    }
+
+function submitForm() {
+    updateFormData(); // Ensure form data is updated
+
+    if (!validateAllPages()) {
+        alert('Please fill out all required fields before submitting.');
+        return;
+    }
+
+    // Disable the submit button
+    const submitButton = document.getElementById('submit-button');
+    submitButton.disabled = true;
+
+    fetch('https://script.google.com/macros/s/AKfycbyGTKUPJhBIBzhGnIc1NnEiT6b90ULlRl4G2L4LfquIZD-zcUGz9NqFSxL_Az0MlxifEg/exec', {
+        method: 'POST',
+        body: new URLSearchParams(formData)
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        displayFormData(); // Display form data on the thank you page
+        switchPage('thankyou'); // Show the Thank You page
+    })
+    .catch(error => console.error('Error:', error))
+    .finally(() => {
+        // Re-enable the submit button after 12 seconds
+        setTimeout(() => {
+            submitButton.disabled = false;
+        }, 12000);
+    });
+}
+
+function displayFormData() {
+    const formDataContainer = document.getElementById('form-data-container');
+    formDataContainer.innerHTML = ''; // Clear previous data
+
+    const participantDetails = {
+        'First Name': formData['first_name'],
+        'Last Name': formData['last_name'],
+        'Email Address': formData['email'],
+        'Bracket Entry Name': formData['bracket_name'], // Corrected key
+        'State': formData['stateSelector'],
+        /* 'First Time Playing': formData['first_time'] === 'yes' ? 'Yes' : 'No',
+        'Recruited by': formData['referral'] */
+    };
+
+    const rounds = {
+        'First Round': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
+        'Second Round': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
+        'Sweet Sixteen': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
+        'Elite Eight': {
+            'Top Left': [],
+            'Bottom Left': [],
+            'Top Right': [],
+            'Bottom Right': []
+        },
+        'Final Four': [],
+        'National Champion': [],
+        'Tiebreaker': formData['tiebreaker_points'] // Add tiebreaker points
+    };
+
+    // Group form data by round and region
+    for (const [key, value] of Object.entries(formData)) {
+        if (key.startsWith('tl_round1')) {
+            rounds['First Round']['Top Left'].push(value);
+        } else if (key.startsWith('bl_round1')) {
+            rounds['First Round']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_round1')) {
+            rounds['First Round']['Top Right'].push(value);
+        } else if (key.startsWith('br_round1')) {
+            rounds['First Round']['Bottom Right'].push(value);
+        } else if (key.startsWith('tl_round2')) {
+            rounds['Second Round']['Top Left'].push(value);
+        } else if (key.startsWith('bl_round2')) {
+            rounds['Second Round']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_round2')) {
+            rounds['Second Round']['Top Right'].push(value);
+        } else if (key.startsWith('br_round2')) {
+            rounds['Second Round']['Bottom Right'].push(value);
+        } else if (key.startsWith('tl_sweet16')) {
+            rounds['Sweet Sixteen']['Top Left'].push(value);
+        } else if (key.startsWith('bl_sweet16')) {
+            rounds['Sweet Sixteen']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_sweet16')) {
+            rounds['Sweet Sixteen']['Top Right'].push(value);
+        } else if (key.startsWith('br_sweet16')) {
+            rounds['Sweet Sixteen']['Bottom Right'].push(value);
+        } else if (key.startsWith('tl_elite8')) {
+            rounds['Elite Eight']['Top Left'].push(value);
+        } else if (key.startsWith('bl_elite8')) {
+            rounds['Elite Eight']['Bottom Left'].push(value);
+        } else if (key.startsWith('tr_elite8')) {
+            rounds['Elite Eight']['Top Right'].push(value);
+        } else if (key.startsWith('br_elite8')) {
+            rounds['Elite Eight']['Bottom Right'].push(value);
+        } else if (key.startsWith('final4')) {
+            rounds['Final Four'].push(value);
+        } else if (key === 'national_champion') {
+            rounds['National Champion'].push(value);
+        }
+    }
+
+    // Create and append participant details
+    const participantHeader = document.createElement('h4');
+    participantHeader.textContent = 'Participant Details';
+    participantHeader.style.fontWeight = 'bold';
+    formDataContainer.appendChild(participantHeader);
+
+    const participantList = document.createElement('ul');
+    for (const [key, value] of Object.entries(participantDetails)) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${key}: ${value}`;
+        participantList.appendChild(listItem);
+    }
+    formDataContainer.appendChild(participantList);
+
+    // Create and append headers and lists for each round and region
+    const roundsContainer = document.createElement('div');
+    roundsContainer.id = 'rounds-container'; // Ensure the ID is set correctly
+    roundsContainer.style.display = 'flex';
+    roundsContainer.style.flexWrap = 'wrap';
+
+    for (const [round, regions] of Object.entries(rounds)) {
+        const roundColumn = document.createElement('div');
+        roundColumn.style.flex = '1';
+        roundColumn.style.margin = '5px'; // Ensure the margin is set correctly
+        roundColumn.style.padding = '0'; // Remove padding
+
+        const roundHeader = document.createElement('h4');
+        roundHeader.textContent = round;
+        roundHeader.className = 'thankyou-round-header'; // Use the new round-header class
+        roundColumn.appendChild(roundHeader);
+
+        if (round === 'Final Four' || round === 'National Champion' || round === 'Tiebreaker') {
+            const list = document.createElement('ul');
+            if (round === 'Tiebreaker') {
+                const listItem = document.createElement('li');
+                listItem.textContent = regions;
+                list.appendChild(listItem);
+            } else {
+                regions.forEach(pick => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = pick;
+                    list.appendChild(listItem);
+                });
+            }
+            roundColumn.appendChild(list);
+        } else {
+            for (const [region, picks] of Object.entries(regions)) {
+                if (picks.length > 0) {
+                    const regionHeader = document.createElement('h5');
+                    regionHeader.textContent = region;
+                    regionHeader.style.fontWeight = 'bold';
+                    roundColumn.appendChild(regionHeader);
+
+                    const list = document.createElement('ul');
+                    picks.forEach(pick => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = pick;
+                        list.appendChild(listItem);
+                    });
+                    roundColumn.appendChild(list);
+                }
+            }
+        }
+
+        roundsContainer.appendChild(roundColumn);
+    }
+
+    formDataContainer.appendChild(roundsContainer);
+}
+
+function printFormData() {
+    window.print();
+}
+
+function validateEntryName() {
+    const entryName = document.getElementById('bracket_name').value;
+    const regex = /^[A-Za-z]/; // Regular expression to check if the first character is an alphabet
+    if (!regex.test(entryName)) {
+        alert('Bracket Entry Name must start with an alphabet character.');
+        return false;
+    }
+    if (entryName.endsWith(' ')) {
+        alert('Bracket Entry Name cannot end with a space.');
+        return false;
+    }
+    return true;
+}
+
+function validateParticipantDetails() {
+    const requiredFields = document.querySelectorAll('#participant-details input[required], #participant-details select[required]');
+    let isValid = true;
+    requiredFields.forEach(field => {
+        if (field.value === "") {
+            field.style.border = '2px solid #f8be08';
+            isValid = false;
+        } else {
+            field.style.border = ''; // Reset border
+        }
+    });
+    return isValid && validateEntryName();
+}
+
+function showPage(pageId) {
+    if (pageId === 'tl_tournament-picks' && !validateParticipantDetails()) {
+        return; // Prevent navigation if participant details are invalid
+    }
+
+    updateFormData();
+    if (validatePage()) {
+        switchPage(pageId);
+    } else {
+        showWarningDialog(pageId);
+    }
+}
+
+function switchPage(pageId) {
+    const pages = document.getElementsByClassName('page');
+    for (let i = 0; i < pages.length; i++) {
+        pages[i].classList.add('hidden');
+    }
+    document.getElementById(pageId).classList.remove('hidden');
+}
+
+function validatePage() {
+    const currentPage = document.querySelector('.page:not(.hidden)');
+    if (!currentPage) {
+        return true; // No page to validate
+    }
+    const requiredFields = currentPage.querySelectorAll('select[required]');
+    let isValid = true;
+    requiredFields.forEach(field => {
+        if (field.value === "") {
+            field.style.border = '2px solid #f8be08';
+            isValid = false;
+        } else {
+            field.style.border = ''; // Reset border
+        }
+    });
+    return isValid;
+}
+
+function validateAllPages() {
+    let allValid = true;
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        const requiredFields = page.querySelectorAll('select[required], input[required]');
+        requiredFields.forEach(field => {
+            if (field.value === "") {
+                field.style.border = '2px solid #f8be08';
+                allValid = false;
+            } else {
+                field.style.border = ''; // Reset border
+            }
+        });
+    });
+    return allValid;
+}
+
+    /* Function to toggle the referral field based on the first time checkbox */
+    function toggleReferralField() {
+        const firstTimeCheckbox = document.getElementById('first_time');
+        const referralField = document.getElementById('referral');
+        referralField.disabled = !firstTimeCheckbox.checked;
+        if (!firstTimeCheckbox.checked) {
+            referralField.value = ''; // Clear the referral field if the checkbox is unchecked
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstTimeCheckbox = document.getElementById('first_time');
+        firstTimeCheckbox.addEventListener('change', toggleReferralField);
+        toggleReferralField(); // Initial call to set the correct state on page load
+    });
+
+function submitAnotherBracket() {
+    // Clear form data
+    formData = {};
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        if (input.type !== 'submit') {
+            input.value = '';
+        }
+    });
+
+    // Navigate back to the participant details page
+    switchPage('participant-details');
+}
+
+function showWarningDialog(pageId) {
+    var warningDialog = document.getElementById("warning-dialog");
+    warningDialog.style.display = "block";
+    var proceedButton = document.getElementById("proceed-button");
+    proceedButton.onclick = function () {
+        switchPage(pageId);
+        warningDialog.style.display = "none";
+    };
+    var cancelButton = document.getElementById("cancel-button");
+    cancelButton.onclick = function () {
+        warningDialog.style.display = "none";
+    };
+}
+
+        function tl_updateSecondRound() {
+            var tl_round1_match1 = document.getElementById("tl_round1_match1").value;
+            var tl_round1_match2 = document.getElementById("tl_round1_match2").value;
+            var tl_round1_match3 = document.getElementById("tl_round1_match3").value;
+            var tl_round1_match4 = document.getElementById("tl_round1_match4").value;
+            var tl_round1_match5 = document.getElementById("tl_round1_match5").value;
+            var tl_round1_match6 = document.getElementById("tl_round1_match6").value;
+            var tl_round1_match7 = document.getElementById("tl_round1_match7").value;
+            var tl_round1_match8 = document.getElementById("tl_round1_match8").value;
+
+            var tl_round2_match1 = document.getElementById("tl_round2_match1");
+            var tl_round2_match2 = document.getElementById("tl_round2_match2");
+            var tl_round2_match3 = document.getElementById("tl_round2_match3");
+            var tl_round2_match4 = document.getElementById("tl_round2_match4");
+
+            function setOptions(selectElement, tl_match1, tl_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + tl_match1 + '">' + tl_match1 + '</option>' +
+                    '<option value="' + tl_match2 + '">' + tl_match2 + '</option>';
+                if (currentValue !== tl_match1 && currentValue !== tl_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(tl_round2_match1, tl_round1_match1, tl_round1_match2);
+            setOptions(tl_round2_match2, tl_round1_match3, tl_round1_match4);
+            setOptions(tl_round2_match3, tl_round1_match5, tl_round1_match6);
+            setOptions(tl_round2_match4, tl_round1_match7, tl_round1_match8);
+
+            tl_updateSweetSixteen();
+        }
+
+        function tl_updateSweetSixteen() {
+            var tl_round2_match1 = document.getElementById("tl_round2_match1").value;
+            var tl_round2_match2 = document.getElementById("tl_round2_match2").value;
+            var tl_round2_match3 = document.getElementById("tl_round2_match3").value;
+            var tl_round2_match4 = document.getElementById("tl_round2_match4").value;
+
+            var tl_sweet16_match1 = document.getElementById("tl_sweet16_match1");
+            var tl_sweet16_match2 = document.getElementById("tl_sweet16_match2");
+
+            function setOptions(selectElement, tl_match1, tl_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + tl_match1 + '">' + tl_match1 + '</option>' +
+                    '<option value="' + tl_match2 + '">' + tl_match2 + '</option>';
+                if (currentValue !== tl_match1 && currentValue !== tl_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(tl_sweet16_match1, tl_round2_match1, tl_round2_match2);
+            setOptions(tl_sweet16_match2, tl_round2_match3, tl_round2_match4);
+
+            tl_updateEliteEight();
+        }
+        function tl_updateEliteEight() {
+            var tl_sweet16_match1 = document.getElementById("tl_sweet16_match1").value;
+            var tl_sweet16_match2 = document.getElementById("tl_sweet16_match2").value;
+
+            var tl_elite8_match1 = document.getElementById("tl_elite8_match1");
+
+            function setOptions(selectElement, tl_match1, tl_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + tl_match1 + '">' + tl_match1 + '</option>' +
+                    '<option value="' + tl_match2 + '">' + tl_match2 + '</option>';
+                if (currentValue !== tl_match1 && currentValue !== tl_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+            setOptions(tl_elite8_match1, tl_sweet16_match1, tl_sweet16_match2);
+        }
+
+        function bl_updateSecondRound() {
+            var bl_round1_match1 = document.getElementById("bl_round1_match1").value;
+            var bl_round1_match2 = document.getElementById("bl_round1_match2").value;
+            var bl_round1_match3 = document.getElementById("bl_round1_match3").value;
+            var bl_round1_match4 = document.getElementById("bl_round1_match4").value;
+            var bl_round1_match5 = document.getElementById("bl_round1_match5").value;
+            var bl_round1_match6 = document.getElementById("bl_round1_match6").value;
+            var bl_round1_match7 = document.getElementById("bl_round1_match7").value;
+            var bl_round1_match8 = document.getElementById("bl_round1_match8").value;
+
+            var bl_round2_match1 = document.getElementById("bl_round2_match1");
+            var bl_round2_match2 = document.getElementById("bl_round2_match2");
+            var bl_round2_match3 = document.getElementById("bl_round2_match3");
+            var bl_round2_match4 = document.getElementById("bl_round2_match4");
+
+            function setOptions(selectElement, bl_match1, bl_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + bl_match1 + '">' + bl_match1 + '</option>' +
+                    '<option value="' + bl_match2 + '">' + bl_match2 + '</option>';
+                if (currentValue !== bl_match1 && currentValue !== bl_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(bl_round2_match1, bl_round1_match1, bl_round1_match2);
+            setOptions(bl_round2_match2, bl_round1_match3, bl_round1_match4);
+            setOptions(bl_round2_match3, bl_round1_match5, bl_round1_match6);
+            setOptions(bl_round2_match4, bl_round1_match7, bl_round1_match8);
+
+            bl_updateSweetSixteen();
+        }
+
+        function bl_updateSweetSixteen() {
+            var bl_round2_match1 = document.getElementById("bl_round2_match1").value;
+            var bl_round2_match2 = document.getElementById("bl_round2_match2").value;
+            var bl_round2_match3 = document.getElementById("bl_round2_match3").value;
+            var bl_round2_match4 = document.getElementById("bl_round2_match4").value;
+
+            var bl_sweet16_match1 = document.getElementById("bl_sweet16_match1");
+            var bl_sweet16_match2 = document.getElementById("bl_sweet16_match2");
+
+            function setOptions(selectElement, bl_match1, bl_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + bl_match1 + '">' + bl_match1 + '</option>' +
+                    '<option value="' + bl_match2 + '">' + bl_match2 + '</option>';
+                if (currentValue !== bl_match1 && currentValue !== bl_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(bl_sweet16_match1, bl_round2_match1, bl_round2_match2);
+            setOptions(bl_sweet16_match2, bl_round2_match3, bl_round2_match4);
+
+            bl_updateEliteEight();
+        }
+        function bl_updateEliteEight() {
+            var bl_sweet16_match1 = document.getElementById("bl_sweet16_match1").value;
+            var bl_sweet16_match2 = document.getElementById("bl_sweet16_match2").value;
+
+            var bl_elite8_match1 = document.getElementById("bl_elite8_match1");
+
+            function setOptions(selectElement, bl_match1, bl_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + bl_match1 + '">' + bl_match1 + '</option>' +
+                    '<option value="' + bl_match2 + '">' + bl_match2 + '</option>';
+                if (currentValue !== bl_match1 && currentValue !== bl_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+            setOptions(bl_elite8_match1, bl_sweet16_match1, bl_sweet16_match2);
+        }
+        
+        function tr_updateSecondRound() {
+            var tr_round1_match1 = document.getElementById("tr_round1_match1").value;
+            var tr_round1_match2 = document.getElementById("tr_round1_match2").value;
+            var tr_round1_match3 = document.getElementById("tr_round1_match3").value;
+            var tr_round1_match4 = document.getElementById("tr_round1_match4").value;
+            var tr_round1_match5 = document.getElementById("tr_round1_match5").value;
+            var tr_round1_match6 = document.getElementById("tr_round1_match6").value;
+            var tr_round1_match7 = document.getElementById("tr_round1_match7").value;
+            var tr_round1_match8 = document.getElementById("tr_round1_match8").value;
+
+            var tr_round2_match1 = document.getElementById("tr_round2_match1");
+            var tr_round2_match2 = document.getElementById("tr_round2_match2");
+            var tr_round2_match3 = document.getElementById("tr_round2_match3");
+            var tr_round2_match4 = document.getElementById("tr_round2_match4");
+
+            function setOptions(selectElement, tr_match1, tr_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + tr_match1 + '">' + tr_match1 + '</option>' +
+                    '<option value="' + tr_match2 + '">' + tr_match2 + '</option>';
+                if (currentValue !== tr_match1 && currentValue !== tr_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(tr_round2_match1, tr_round1_match1, tr_round1_match2);
+            setOptions(tr_round2_match2, tr_round1_match3, tr_round1_match4);
+            setOptions(tr_round2_match3, tr_round1_match5, tr_round1_match6);
+            setOptions(tr_round2_match4, tr_round1_match7, tr_round1_match8);
+
+            tr_updateSweetSixteen();
+        }
+
+        function tr_updateSweetSixteen() {
+            var tr_round2_match1 = document.getElementById("tr_round2_match1").value;
+            var tr_round2_match2 = document.getElementById("tr_round2_match2").value;
+            var tr_round2_match3 = document.getElementById("tr_round2_match3").value;
+            var tr_round2_match4 = document.getElementById("tr_round2_match4").value;
+
+            var tr_sweet16_match1 = document.getElementById("tr_sweet16_match1");
+            var tr_sweet16_match2 = document.getElementById("tr_sweet16_match2");
+
+            function setOptions(selectElement, tr_match1, tr_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + tr_match1 + '">' + tr_match1 + '</option>' +
+                    '<option value="' + tr_match2 + '">' + tr_match2 + '</option>';
+                if (currentValue !== tr_match1 && currentValue !== tr_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(tr_sweet16_match1, tr_round2_match1, tr_round2_match2);
+            setOptions(tr_sweet16_match2, tr_round2_match3, tr_round2_match4);
+
+            tr_updateEliteEight();
+        }
+        function tr_updateEliteEight() {
+            var tr_sweet16_match1 = document.getElementById("tr_sweet16_match1").value;
+            var tr_sweet16_match2 = document.getElementById("tr_sweet16_match2").value;
+
+            var tr_elite8_match1 = document.getElementById("tr_elite8_match1");
+
+            function setOptions(selectElement, tr_match1, tr_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + tr_match1 + '">' + tr_match1 + '</option>' +
+                    '<option value="' + tr_match2 + '">' + tr_match2 + '</option>';
+                if (currentValue !== tr_match1 && currentValue !== tr_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+            setOptions(tr_elite8_match1, tr_sweet16_match1, tr_sweet16_match2);
+        }
+
+        function br_updateSecondRound() {
+            var br_round1_match1 = document.getElementById("br_round1_match1").value;
+            var br_round1_match2 = document.getElementById("br_round1_match2").value;
+            var br_round1_match3 = document.getElementById("br_round1_match3").value;
+            var br_round1_match4 = document.getElementById("br_round1_match4").value;
+            var br_round1_match5 = document.getElementById("br_round1_match5").value;
+            var br_round1_match6 = document.getElementById("br_round1_match6").value;
+            var br_round1_match7 = document.getElementById("br_round1_match7").value;
+            var br_round1_match8 = document.getElementById("br_round1_match8").value;
+
+            var br_round2_match1 = document.getElementById("br_round2_match1");
+            var br_round2_match2 = document.getElementById("br_round2_match2");
+            var br_round2_match3 = document.getElementById("br_round2_match3");
+            var br_round2_match4 = document.getElementById("br_round2_match4");
+
+            function setOptions(selectElement, br_match1, br_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + br_match1 + '">' + br_match1 + '</option>' +
+                    '<option value="' + br_match2 + '">' + br_match2 + '</option>';
+                if (currentValue !== br_match1 && currentValue !== br_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(br_round2_match1, br_round1_match1, br_round1_match2);
+            setOptions(br_round2_match2, br_round1_match3, br_round1_match4);
+            setOptions(br_round2_match3, br_round1_match5, br_round1_match6);
+            setOptions(br_round2_match4, br_round1_match7, br_round1_match8);
+
+            br_updateSweetSixteen();
+        }
+
+        function br_updateSweetSixteen() {
+            var br_round2_match1 = document.getElementById("br_round2_match1").value;
+            var br_round2_match2 = document.getElementById("br_round2_match2").value;
+            var br_round2_match3 = document.getElementById("br_round2_match3").value;
+            var br_round2_match4 = document.getElementById("br_round2_match4").value;
+
+            var br_sweet16_match1 = document.getElementById("br_sweet16_match1");
+            var br_sweet16_match2 = document.getElementById("br_sweet16_match2");
+
+            function setOptions(selectElement, br_match1, br_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + br_match1 + '">' + br_match1 + '</option>' +
+                    '<option value="' + br_match2 + '">' + br_match2 + '</option>';
+                if (currentValue !== br_match1 && currentValue !== br_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(br_sweet16_match1, br_round2_match1, br_round2_match2);
+            setOptions(br_sweet16_match2, br_round2_match3, br_round2_match4);
+
+            br_updateEliteEight();
+        }
+        function br_updateEliteEight() {
+            var br_sweet16_match1 = document.getElementById("br_sweet16_match1").value;
+            var br_sweet16_match2 = document.getElementById("br_sweet16_match2").value;
+
+            var br_elite8_match1 = document.getElementById("br_elite8_match1");
+
+            function setOptions(selectElement, br_match1, br_match2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + br_match1 + '">' + br_match1 + '</option>' +
+                    '<option value="' + br_match2 + '">' + br_match2 + '</option>';
+                if (currentValue !== br_match1 && currentValue !== br_match2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+            setOptions(br_elite8_match1, br_sweet16_match1, br_sweet16_match2);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var tl_firstRoundDropdowns = document.querySelectorAll("#tl_first-round select");
+            tl_firstRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", tl_updateSecondRound);
+            });
+            var tl_secondRoundDropdowns = document.querySelectorAll("#tl_second-round select");
+            tl_secondRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", tl_updateSweetSixteen);
+            });
+            var tl_sweetSixteenDropdowns = document.querySelectorAll("#tl_sweet16 select");
+            tl_sweetSixteenDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", tl_updateEliteEight);
+            });
+
+            var bl_firstRoundDropdowns = document.querySelectorAll("#bl_first-round select");
+            bl_firstRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", bl_updateSecondRound);
+            });
+            var bl_secondRoundDropdowns = document.querySelectorAll("#bl_second-round select");
+            bl_secondRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", bl_updateSweetSixteen);
+            });
+            var bl_sweetSixteenDropdowns = document.querySelectorAll("#bl_sweet16 select");
+            bl_sweetSixteenDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", bl_updateEliteEight);
+            });
+
+            var tr_firstRoundDropdowns = document.querySelectorAll("#tr_first-round select");
+            tr_firstRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", tr_updateSecondRound);
+            });
+            var tr_secondRoundDropdowns = document.querySelectorAll("#tr_second-round select");
+            tr_secondRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", tr_updateSweetSixteen);
+            });
+            var tr_sweetSixteenDropdowns = document.querySelectorAll("#tr_sweet16 select");
+            tr_sweetSixteenDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", tr_updateEliteEight);
+            });
+
+            var br_firstRoundDropdowns = document.querySelectorAll("#br_first-round select");
+            br_firstRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", br_updateSecondRound);
+            });
+            var br_secondRoundDropdowns = document.querySelectorAll("#br_second-round select");
+            br_secondRoundDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", br_updateSweetSixteen);
+            });
+            var br_sweetSixteenDropdowns = document.querySelectorAll("#br_sweet16 select");
+            br_sweetSixteenDropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", br_updateEliteEight);
+            });
+        });
+
+        function updateFinalFour() {
+            var tl_elite8_winner = document.getElementById("tl_elite8_match1").value;
+            var bl_elite8_winner = document.getElementById("bl_elite8_match1").value;
+            var tr_elite8_winner = document.getElementById("tr_elite8_match1").value;
+            var br_elite8_winner = document.getElementById("br_elite8_match1").value;
+
+            var final4_match1 = document.getElementById("final4_match1");
+            var final4_match2 = document.getElementById("final4_match2");
+
+            function setOptions(selectElement, winner1, winner2) {
+                var currentValue = selectElement.value;
+                selectElement.innerHTML =
+                    '<option value="">Select a team</option>' +
+                    '<option value="' + winner1 + '">' + winner1 + '</option>' +
+                    '<option value="' + winner2 + '">' + winner2 + '</option>';
+                if (currentValue !== winner1 && currentValue !== winner2) {
+                    selectElement.value = ""; // Revert to "Select a team"
+                } else {
+                    selectElement.value = currentValue; // Retain the current valid selection
+                }
+            }
+
+            setOptions(final4_match1, tl_elite8_winner, bl_elite8_winner);
+            setOptions(final4_match2, tr_elite8_winner, br_elite8_winner);
+
+            // Update national champion options
+            updateNationalChampion();
+        }
+
+        function updateNationalChampion() {
+            var final4_match1_winner = document.getElementById("final4_match1").value;
+            var final4_match2_winner = document.getElementById("final4_match2").value;
+
+            var national_champion = document.getElementById("national_champion");
+
+            var currentValue = national_champion.value;
+            national_champion.innerHTML =
+                '<option value="">Select a team</option>' +
+                '<option value="' + final4_match1_winner + '">' + final4_match1_winner + '</option>' +
+                '<option value="' + final4_match2_winner + '">' + final4_match2_winner + '</option>';
+            if (currentValue !== final4_match1_winner && currentValue !== final4_match2_winner) {
+                national_champion.value = ""; // Revert to "Select a team"
+            } else {
+                national_champion.value = currentValue; // Retain the current valid selection
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Existing event listeners...
+
+            var elite8Dropdowns = document.querySelectorAll("#tl_elite8 select, #bl_elite8 select, #tr_elite8 select, #br_elite8 select");
+            elite8Dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", updateFinalFour);
+            });
+
+            var final4Dropdowns = document.querySelectorAll("#final4 select");
+            final4Dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener("change", updateNationalChampion);
+            });
+        });
+        
+    </script>
+</head>
+<body>
+   
+    <!--Page 1: Participant Details-->
+    <div id="participant-details" class="page">
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
+        <p style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">
+            New to BRI? Check out our <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> before you sign up.
+        </p>
+        <p style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px">Complete your submission from a computer for the optimal user experience.</p>
+        <h3 style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Let's start with a few things about you.</h3>
+        <form onsubmit="event.preventDefault(); showPage('tl_tournament-picks');">
+            <div class="form-group">
+                <label for="first_name" class="participant-input" style="color: #0e0e5f">First Name:</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name" class="participant-input" style="color: #0e0e5f">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="email" class="participant-input" style="color: #0e0e5f">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+                <div class="tooltip">
+                    <span style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
+                    <span class="tooltiptext">Please provide a personal email address. Work emails will not be accepted.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="bracket_name" class="participant-input" style="color: #0e0e5f">Bracket Entry Name:</label>
+                <input type="text" id="bracket_name" name="bracket_name" minlength="5" maxlength="10" required>
+                <div class="tooltip">
+                    <span style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; cursor: pointer;">&#9432;</span>
+                    <span class="tooltiptext">Choose a name for your bracket entry. If submitting multiple brackets, please use unique entry names. This name is what will appear in the challenge standings. It should be between 5 and 10 characters long.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="stateSelector" class="participant-input" style="color: #0e0e5f">Select Your State:</label>
+                <select id="stateSelector" name="stateSelector" required>
+                    <option value="">Select a state</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                    <option value="CO">Colorado</option>
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="DC">District of Columbia</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    <option value="IN">Indiana</option>
+                    <option value="IA">Iowa</option>
+                    <option value="KS">Kansas</option>
+                    <option value="KY">Kentucky</option>
+                    <option value="LA">Louisiana</option>
+                    <option value="ME">Maine</option>
+                    <option value="MD">Maryland</option>
+                    <option value="MA">Massachusetts</option>
+                    <option value="MI">Michigan</option>
+                    <option value="MN">Minnesota</option>
+                    <option value="MS">Mississippi</option>
+                    <option value="MO">Missouri</option>
+                    <option value="MT">Montana</option>
+                    <option value="NE">Nebraska</option>
+                    <option value="NV">Nevada</option>
+                    <option value="NH">New Hampshire</option>
+                    <option value="NJ">New Jersey</option>
+                    <option value="NM">New Mexico</option>
+                    <option value="NY">New York</option>
+                    <option value="NC">North Carolina</option>
+                    <option value="ND">North Dakota</option>
+                    <option value="OH">Ohio</option>
+                    <option value="OK">Oklahoma</option>
+                    <option value="OR">Oregon</option>
+                    <option value="PA">Pennsylvania</option>
+                    <option value="RI">Rhode Island</option>
+                    <option value="SC">South Carolina</option>
+                    <option value="SD">South Dakota</option>
+                    <option value="TN">Tennessee</option>
+                    <option value="TX">Texas</option>
+                    <option value="UT">Utah</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WA">Washington</option>
+                    <option value="WV">West Virginia</option>
+                    <option value="WI">Wisconsin</option>
+                    <option value="WY">Wyoming</option>
+                </select>
+            </div><br>
+            <!-- <p style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: bold; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px; margin-left: 10px">New to 2025, the BRI recruiting program! This program incentivizes partipiants for recruiting new users to the pool. Check out the BRI Recruiting Program to learn more.</p>
+            <p style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; font-size:small; font-weight: normal; font-style: italic; text-align: left; margin-top: 0px; margin-bottom: 10px; margin-left: 10px">Is this your first time participating in the BRI Bracket Challange? Check the box below and let us know who recruited you.</p>
+            <div class="form-group">
+                <label for="first_time" class="participant-input" style="color: #0e0e5f">First time playing?</label>
+                <input type="checkbox" id="first_time" name="first_time">
+            </div>
+            <div class="form-group">
+                <label for="entryReferral" class="participant-input" style="color: #0e0e5f">Recruited by: <br> <i>(First & Last Name)</i></label>
+                <input type="text" id="referral" name="referral">
+            </div> -->
+            
+            <input class= "button-participant" type="submit" value="Next Page">
+        </form>
+    </div>
+
+    <!--Page 2: Top Left Region-->
+    <div id="tl_tournament-picks" class="page hidden">
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
+        <button class="button-selections" type="button" onclick="showPage('participant-details');">Previous Page</button>
+        <button class="button-selections" type="button" onclick="showPage('bl_tournament-picks');">Next Page</button><br><br>
+        <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Top Left Region</h3>
+        <form onsubmit="event.preventDefault(); showPage('bl_tournament-picks');">
+            <div class="container">
+                <section class="blue-header" style="text-align: center">First Round</section>
+                <section class="blue-header" style="text-align: center">Second Round</section>
+                <section class="blue-header" style="text-align: center">Sweet Sixteen</section>
+                <section class="blue-header" style="text-align: center">Elite Eight</section>
+                <section class="blue-header" style="text-align: center">Final Four</section>
+            </div>
+            <div class="container">
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">April DD</section>
+            </div>
+            <div class="container">
+                <!--First Round: Full field of Teams | Static text-->
+                <section class="first-round">
+                    <P class="blank"></P>
+                    <p class="bottom-border">tl_Seed 1</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 16</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tl_Seed 8</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 9</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tl_Seed 5</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 12</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tl_Seed 4</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 13</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tl_Seed 6</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 11</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tl_Seed 3</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 14</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tl_Seed 7</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 10</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tl_Seed 2</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tl_Seed 15</p>
+                    <br>
+                </section>
+                <!--Secound Round: First Round Winners | Dropdowns-->
+                <section id="tl_first-round" class="second-round">
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_round1_match1" name="tl_round1_match1" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 1">tl_Seed 1</option>
+                            <option value="tl_Seed 16">tl_Seed 16</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tl_round1_match2" name="tl_round1_match2" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 8">tl_Seed 8</option>
+                            <option value="tl_Seed 9">tl_Seed 9</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_round1_match3" name="tl_round1_match3" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 5">tl_Seed 5</option>
+                            <option value="tl_Seed 12">tl_Seed 12</option>
+                        </select>
+                    </div>
+                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tl_round1_match4" name="tl_round1_match4" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 4">tl_Seed 4</option>
+                            <option value="tl_Seed 13">tl_Seed 13</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_round1_match5" name="tl_round1_match5" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 6">tl_Seed 6</option>
+                            <option value="tl_Seed 11">tl_Seed 11</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tl_round1_match6" name="tl_round1_match6" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 3">tl_Seed 3</option>
+                            <option value="tl_Seed 14">tl_Seed 14</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_round1_match7" name="tl_round1_match7" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 7">tl_Seed 7</option>
+                            <option value="tl_Seed 10">tl_Seed 10</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tl_round1_match8" name="tl_round1_match8" required>
+                            <option value="">Select a team</option>
+                            <option value="tl_Seed 2">tl_Seed 2</option>
+                            <option value="tl_Seed 15">tl_Seed 15</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
+                <section id="tl_second-round" class="sweet16">
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_round2_match1" name="tl_round2_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tl_round2_match2" name="tl_round2_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 84px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_round2_match3" name="tl_round2_match3" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tl_round2_match4" name="tl_round2_match4" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div><br><br>
+                </section>
+                <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
+                <section id="tl_sweet16" class="elite8">
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_sweet16_match1" name="tl_sweet16_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tl_sweet16_match2" name="tl_sweet16_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Final Four: Elite Eight Winners | Dropdowns-->
+                <section id="tl_elite8" class="final4">
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tl_elite8_match1" name="tl_elite8_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </div>
+
+    <!--Page 3: Bottom Left Region-->
+    <div id="bl_tournament-picks" class="page hidden">
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
+        <button class="button-selections" type="button" onclick="showPage('tl_tournament-picks');">Previous Page</button>
+        <button class="button-selections" type="button" onclick="showPage('tr_tournament-picks');">Next Page</button><br><br>
+        <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Bottom Left Region</h3>
+        <form onsubmit="event.preventDefault(); showPage('bl_tournament-picks');">
+            <div class="container">
+                <section class="blue-header" style="text-align: center">First Round</section>
+                <section class="blue-header" style="text-align: center">Second Round</section>
+                <section class="blue-header" style="text-align: center">Sweet Sixteen</section>
+                <section class="blue-header" style="text-align: center">Elite Eight</section>
+                <section class="blue-header" style="text-align: center">Final Four</section>
+            </div>
+            <div class="container">
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">April DD</section>
+            </div>
+            <div class="container">
+                <!--First Round: Full field of Teams | Static text-->
+                <section class="first-round">
+                    <P class="blank"></P>
+                    <p class="bottom-border">bl_Seed 1</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 16</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">bl_Seed 8</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 9</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">bl_Seed 5</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 12</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">bl_Seed 4</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 13</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">bl_Seed 6</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 11</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">bl_Seed 3</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 14</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">bl_Seed 7</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 10</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">bl_Seed 2</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">bl_Seed 15</p>
+                    <br>
+                </section>
+                <!--Secound Round: First Round Winners | Dropdowns-->
+                <section id="bl_first-round" class="second-round">
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_round1_match1" name="bl_round1_match1" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 1">bl_Seed 1</option>
+                            <option value="bl_Seed 16">bl_Seed 16</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="bl_round1_match2" name="bl_round1_match2" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 8">bl_Seed 8</option>
+                            <option value="bl_Seed 9">bl_Seed 9</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_round1_match3" name="bl_round1_match3" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 5">bl_Seed 5</option>
+                            <option value="bl_Seed 12">bl_Seed 12</option>
+                        </select>
+                    </div>
+                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="bl_round1_match4" name="bl_round1_match4" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 4">bl_Seed 4</option>
+                            <option value="bl_Seed 13">bl_Seed 13</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_round1_match5" name="bl_round1_match5" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 6">bl_Seed 6</option>
+                            <option value="bl_Seed 11">bl_Seed 11</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="bl_round1_match6" name="bl_round1_match6" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 3">bl_Seed 3</option>
+                            <option value="bl_Seed 14">bl_Seed 14</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_round1_match7" name="bl_round1_match7" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 7">bl_Seed 7</option>
+                            <option value="bl_Seed 10">bl_Seed 10</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="bl_round1_match8" name="bl_round1_match8" required>
+                            <option value="">Select a team</option>
+                            <option value="bl_Seed 2">bl_Seed 2</option>
+                            <option value="bl_Seed 15">bl_Seed 15</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
+                <section id="bl_second-round" class="sweet16">
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_round2_match1" name="bl_round2_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="bl_round2_match2" name="bl_round2_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 84px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_round2_match3" name="bl_round2_match3" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="bl_round2_match4" name="bl_round2_match4" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div><br><br>
+                </section>
+                <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
+                <section id="bl_sweet16" class="elite8">
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_sweet16_match1" name="bl_sweet16_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="bl_sweet16_match2" name="bl_sweet16_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Final Four: Elite Eight Winners | Dropdowns-->
+                <section id="bl_elite8" class="final4">
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="bl_elite8_match1" name="bl_elite8_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </div>
+
+    <!--Page 4: Top Right Region-->
+    <div id="tr_tournament-picks" class="page hidden">
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
+        <button class="button-selections" type="button" onclick="showPage('bl_tournament-picks');">Previous Page</button>
+        <button class="button-selections" type="button" onclick="showPage('br_tournament-picks');">Next Page</button><br><br>
+        <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Top Right Region</h3>
+        <form onsubmit="event.preventDefault(); showPage('tr_tournament-picks');">
+            <div class="container">
+                <section class="blue-header" style="text-align: center">First Round</section>
+                <section class="blue-header" style="text-align: center">Second Round</section>
+                <section class="blue-header" style="text-align: center">Sweet Sixteen</section>
+                <section class="blue-header" style="text-align: center">Elite Eight</section>
+                <section class="blue-header" style="text-align: center">Final Four</section>
+            </div>
+            <div class="container">
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">April DD</section>
+            </div>
+            <div class="container">
+                <!--First Round: Full field of Teams | Static text-->
+                <section class="first-round">
+                    <P class="blank"></P>
+                    <p class="bottom-border">tr_Seed 1</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 16</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tr_Seed 8</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 9</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tr_Seed 5</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 12</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tr_Seed 4</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 13</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tr_Seed 6</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 11</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tr_Seed 3</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 14</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tr_Seed 7</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 10</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">tr_Seed 2</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">tr_Seed 15</p>
+                    <br>
+                </section>
+                <!--Secound Round: First Round Winners | Dropdowns-->
+                <section id="tr_first-round" class="second-round">
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_round1_match1" name="tr_round1_match1" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 1">tr_Seed 1</option>
+                            <option value="tr_Seed 16">tr_Seed 16</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tr_round1_match2" name="tr_round1_match2" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 8">tr_Seed 8</option>
+                            <option value="tr_Seed 9">tr_Seed 9</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_round1_match3" name="tr_round1_match3" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 5">tr_Seed 5</option>
+                            <option value="tr_Seed 12">tr_Seed 12</option>
+                        </select>
+                    </div>
+                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tr_round1_match4" name="tr_round1_match4" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 4">tr_Seed 4</option>
+                            <option value="tr_Seed 13">tr_Seed 13</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_round1_match5" name="tr_round1_match5" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 6">tr_Seed 6</option>
+                            <option value="tr_Seed 11">tr_Seed 11</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tr_round1_match6" name="tr_round1_match6" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 3">tr_Seed 3</option>
+                            <option value="tr_Seed 14">tr_Seed 14</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_round1_match7" name="tr_round1_match7" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 7">tr_Seed 7</option>
+                            <option value="tr_Seed 10">tr_Seed 10</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tr_round1_match8" name="tr_round1_match8" required>
+                            <option value="">Select a team</option>
+                            <option value="tr_Seed 2">tr_Seed 2</option>
+                            <option value="tr_Seed 15">tr_Seed 15</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
+                <section id="tr_second-round" class="sweet16">
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_round2_match1" name="tr_round2_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tr_round2_match2" name="tr_round2_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 84px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_round2_match3" name="tr_round2_match3" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tr_round2_match4" name="tr_round2_match4" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div><br><br>
+                </section>
+                <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
+                <section id="tr_sweet16" class="elite8">
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_sweet16_match1" name="tr_sweet16_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="tr_sweet16_match2" name="tr_sweet16_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Final Four: Elite Eight Winners | Dropdowns-->
+                <section id="tr_elite8" class="final4">
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="tr_elite8_match1" name="tr_elite8_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </div>
+
+    <!--Page 5: Bottom Right Region-->
+    <div id="br_tournament-picks" class="page hidden">
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
+        <button class="button-selections" type="button" onclick="showPage('tr_tournament-picks');">Previous Page</button>
+        <button class="button-selections" type="button" onclick="showPage('final4_tournament-picks');">Next Page</button><br><br>
+        <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Bottom Right Region</h3>
+        <form onsubmit="event.preventDefault(); showPage('br_tournament-picks');">
+            <div class="container">
+                <section class="blue-header" style="text-align: center">First Round</section>
+                <section class="blue-header" style="text-align: center">Second Round</section>
+                <section class="blue-header" style="text-align: center">Sweet Sixteen</section>
+                <section class="blue-header" style="text-align: center">Elite Eight</section>
+                <section class="blue-header" style="text-align: center">Final Four</section>
+            </div>
+            <div class="container">
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">March DD-DD</section>
+                <section class="gray-header" style="text-align: center">April DD</section>
+            </div>
+            <div class="container">
+                <!--First Round: Full field of Teams | Static text-->
+                <section class="first-round">
+                    <P class="blank"></P>
+                    <p class="bottom-border">br_Seed 1</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 16</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">br_Seed 8</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 9</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">br_Seed 5</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 12</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">br_Seed 4</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 13</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">br_Seed 6</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 11</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">br_Seed 3</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 14</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">br_Seed 7</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 10</p>
+                    <p class="blank"></p>
+                    <p class="bottom-border">br_Seed 2</p>
+                    <p class="right-border"></p>
+                    <p class="bottom-border right-border">br_Seed 15</p>
+                    <br>
+                </section>
+                <!--Secound Round: First Round Winners | Dropdowns-->
+                <section id="br_first-round" class="second-round">
+                    <p style="height: 31px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_round1_match1" name="br_round1_match1" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 1">br_Seed 1</option>
+                            <option value="br_Seed 16">br_Seed 16</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="br_round1_match2" name="br_round1_match2" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 8">br_Seed 8</option>
+                            <option value="br_Seed 9">br_Seed 9</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_round1_match3" name="br_round1_match3" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 5">br_Seed 5</option>
+                            <option value="br_Seed 12">br_Seed 12</option>
+                        </select>
+                    </div>
+                    <p style="height: 47px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="br_round1_match4" name="br_round1_match4" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 4">br_Seed 4</option>
+                            <option value="br_Seed 13">br_Seed 13</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_round1_match5" name="br_round1_match5" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 6">br_Seed 6</option>
+                            <option value="br_Seed 11">br_Seed 11</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="br_round1_match6" name="br_round1_match6" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 3">br_Seed 3</option>
+                            <option value="br_Seed 14">br_Seed 14</option>
+                        </select>
+                    </div>
+                    <p style="height: 20.5px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_round1_match7" name="br_round1_match7" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 7">br_Seed 7</option>
+                            <option value="br_Seed 10">br_Seed 10</option>
+                        </select>
+                    </div>
+                    <p style="height: 46.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="br_round1_match8" name="br_round1_match8" required>
+                            <option value="">Select a team</option>
+                            <option value="br_Seed 2">br_Seed 2</option>
+                            <option value="br_Seed 15">br_Seed 15</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Sweet Sixteen: Second Round Winners | Dropdowns-->
+                <section id="br_second-round" class="sweet16">
+                    <p style="height: 63px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_round2_match1" name="br_round2_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="br_round2_match2" name="br_round2_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 84px;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_round2_match3" name="br_round2_match3" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 109.5px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="br_round2_match4" name="br_round2_match4" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div><br><br>
+                </section>
+                <!--Elite Eight: Sweet Sixteen Winners | Dropdowns-->
+                <section id="br_sweet16" class="elite8">
+                    <p style="height: 127px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_sweet16_match1" name="br_sweet16_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 236px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border right-border">
+                        <select id="br_sweet16_match2" name="br_sweet16_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+                <!--Final Four: Elite Eight Winners | Dropdowns-->
+                <section id="br_elite8" class="final4">
+                    <p style="height: 255px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup bottom-border">
+                        <select id="br_elite8_match1" name="br_elite8_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </div>  
+
+    <!-- Page 6: Final Four -->
+    <div id="final4_tournament-picks" class="page hidden">
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
+            <button class="button-selections" type="button" onclick="showPage('br_tournament-picks');">Previous Page</button>
+            <br><br>
+            <h3 style="font-family: 'Poppins', Arial, sans-serif; font-weight: bolder; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Final Four</h3>
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <div class="container">
+                    <section class="blue-header" style="text-align: center">National Championship</section>
+                    <section class="blue-header" style="text-align: center">National Champion</section>
+                    <section class="blue-header" style="text-align: center; color: #0e0e5f">Tiebreaker</section>
+                </div>
+                <div class="container">
+                    <section class="gray-header" style="text-align: center">April DD</section>
+                    <section class="gray-header" style="text-align: center"></section>
+                    <section class="gray-header" style="text-align: center"></section>
+                </div>
+            <div class="container">
+                <!-- Final Four: Elite Eight Winners | Dropdowns -->
+                <section id="final4" class="elite8">
+                    <P class="blank"></P>
+                        <div class="centered-matchup bottom-border">
+                        <select id="final4_match1" name="final4_match1" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                    <p style="height: 110px; border-right: 2px solid #1c4587; margin: 0; padding: 0;"></p>
+                        <div class="centered-matchup bottom-border right-border">
+                        <select id="final4_match2" name="final4_match2" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+                <!-- National Champion: Final Four Winners | Dropdown -->
+                <section id="champion" class="final4">
+                    <p style="height: 79px; margin: 0; padding: 0;"></p>
+                        <div class="centered-matchup bottom-border">
+                        <select id="national_champion" name="national_champion" required>
+                            <option value="">Select a team</option>
+                        </select>
+                    </div>
+                </section>
+                <!-- Tiebreaker: Enter a number -->
+                <section id="tiebreaker" class="final4">
+                    <p style="height: 54px; margin: 0; padding: 0;"></p>
+                    <div class="centered-matchup blank">
+                        <label for="tiebreaker_points" style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f;">Tiebreaker: Total Pts Scored</label>
+                        <input type="number" id="tiebreaker_points" name="tiebreaker_points" required>
+                    </div>
+                </section>
+            </div><br><br>
+            <input class="button-selections" type="submit" value="Submit" id="submit-button"><br>
+            </form>
+    </div>
+
+    <!-- Page 7: Thank You -->
+    <div id="thankyou" class="page hidden">
+        <h2 class="blue-header-main header-container">
+            <img src="images/LOGO_WonB.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+            YYYY Bracket Challenge Entry Form</h2>
+        <h3 style="font-family: 'Poppins', Arial, sans-serif; color: #0e0e5f; text-align: left; margin-top: 0px; margin-bottom: 5px">Thank you for your submission!</h3>
+        <p style="font-family: 'Poppins', Arial, sans-serif; font-size: smaller; font-weight: bold; color: #0e0e5f; text-align: left; margin: 10px 0;">
+            Important: Once you leave this page, you cannot return.
+        </p>
+        <ul style="font-family: 'Poppins', Arial, sans-serif; font-size: smaller; color: #0e0e5f; text-align: left; margin: 10px 0; margin-bottom: 10px; list-style-type: disc; padding-left: 20px;">
+            <li>If you haven't already, don't forget to pay your entry fee. Check out the <a href="https://sites.google.com/view/bracketrankingindex/tip-off-central" style="color: #0e0e5f;">Tip-Off Central</a> for more details.</li>
+            <li>You should receive an email once the tournament kicks off with additional details. If you don't receive any communications, please check your spam folder and add bracketrankingindex@gmail.com to your trusted contacts.</li>
+            <li>Additionally, you can track tournament results live at <a href="https://sites.google.com/view/bracketrankingindex/bri-hub" style="color: #0e0e5f;">https://sites.google.com/view/bracketrankingindex/bri-hub</a>.</li>
+        </ul>
+            <button class="button-selections" onclick="printFormData()">Print</button>
+        <button class="button-selections" onclick="submitAnotherBracket()">Run it Back</button>
+        <div id="form-data-container">
+            <!-- Form data will be displayed here -->
+        </div>
+    </div>
+
+    <!-- Warning Dialog -->
+    <div id="warning-dialog" style="display: none; font-size:small;">
+        <p style="font-family: 'Poppins', Arial, sans-serif">Please make sure to fill out all required fields before proceeding.</p>
+        <button class="button-selections" id="proceed-button">Proceed Anyway</button>
+        <button class="button-selections" id="cancel-button">Go Back</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="font-family: 'Poppins', Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: center; margin: 10px 0;">
+            Problems with your bracket? Email us at <a href="mailto:bracketrankingindex@gmail.com" style="color: #0e0e5f;">bracketrankingindex@gmail.com</a>
+        </p>
+        <p style="font-family: 'Poppins', Arial, sans-serif; font-size: small; color: #0e0e5f; text-align: center; margin: 10px 0;">
+            &copy; 2025 Bracking Ranking Index | All rights reserved.
+        </p>
+    </footer>
+</body>
+</html>
