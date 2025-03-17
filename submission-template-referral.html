@@ -182,7 +182,8 @@
         }
 
         /* Show the tooltip text when hovering over the tooltip container */
-        .tooltip:hover .tooltiptext {
+        .tooltip:hover .tooltiptext,
+        .tooltip.show .tooltiptext {
             visibility: visible;
             opacity: 1;
         }
@@ -1148,6 +1149,63 @@ function showWarningDialog(pageId) {
             });
         });
         
+    document.addEventListener('DOMContentLoaded', function() {
+        const tooltips = document.querySelectorAll('.tooltip');
+
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('click', function() {
+                this.classList.toggle('show');
+            });
+
+            // Hide the tooltip when clicking outside of it
+            document.addEventListener('click', function(event) {
+                if (!tooltip.contains(event.target)) {
+                    tooltip.classList.remove('show');
+                }
+            });
+        });
+
+        // Validate entry name length on input
+        const bracketNameInput = document.getElementById('bracket_name');
+        bracketNameInput.addEventListener('input', function() {
+            const minLength = 5;
+            const maxLength = 10;
+            if (this.value.length < minLength || this.value.length > maxLength) {
+                this.setCustomValidity(`Bracket Entry Name must be between ${minLength} and ${maxLength} characters.`);
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const tooltips = document.querySelectorAll('.tooltip');
+
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('click', function() {
+                this.classList.toggle('show');
+            });P
+
+            // Hide the tooltip when clicking outside of it
+            document.addEventListener('click', function(event) {
+                if (!tooltip.contains(event.target)) {
+                    tooltip.classList.remove('show');
+                }
+            });
+        });
+
+        // Validate entry name length on input
+        const bracketNameInput = document.getElementById('bracket_name');
+        bracketNameInput.addEventListener('input', function() {
+            const minLength = 5;
+            const maxLength = 10;
+            if (this.value.length < minLength || this.value.length > maxLength) {
+                this.setCustomValidity(`Bracket Entry Name must be between ${minLength} and ${maxLength} characters.`);
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
     </script>
 </head>
 <body>
